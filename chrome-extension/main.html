@@ -1,0 +1,24 @@
+<html>
+    <head>
+
+    </head>
+    <body style="margin: 0px;">
+        <div style="background-color: #ff8f3f; height: 5px;"></div>
+        <div style="float: left; padding: 10px;">
+            <label>Your local host:</label>
+            <input disabled id="host"  type="text" value="localhost">
+            <label>Port:</label>
+            <input id="host_port" type="number" value="80" >
+            <input type="checkbox"> HTTPs
+            <button id="start_hook">START THE HOOK</button>
+        </div><br><br>
+        <div style="background-color: #ff8f3f; height: 5px; margin-top: 10px"></div><br>
+        <label style="padding: 10px;">Your hook URL:</label><b id="remote_url">-</b><br><br>
+        <label style="padding: 10px;">Request History:</label><br>
+        <div style="padding: 10px; overflow:scroll; height:600px;" id="request_history" >
+        </div>
+    </body>
+    <script src="js/socket.io.js"></script>
+    <script src="js/jquery.js"></script>
+    <script src="js/main.js"></script>
+</html>

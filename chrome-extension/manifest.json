@@ -1,0 +1,18 @@
+{
+    "manifest_version": 2,
+    "name": "MyHook",
+    "description": "This extension allows you exposing your internal server to public.",
+    "version": "1.0",
+    "browser_action": {
+        "default_icon": "image.png",
+        "default_title": "MyHook"
+    },
+    "background" : {
+        "scripts" : ["background.js"]
+    },
+    "permissions": [
+        "tabs",
+        "https://*/",
+        "http://*/"
+    ]
+}
