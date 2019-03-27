@@ -1,7 +1,3 @@
-# Creating your first Chrome Extension
+# MyHook.io
 
-This source code belongs to a tutorial located here: [https://devdojo.com/blog/tutorials/creating-your-first-chrome-extension](https://devdojo.com/blog/tutorials/creating-your-first-chrome-extension)
-
-Be sure to visit the Tutorial to learn how easy it is to create your first Chrome Extension.
-
-![](https://devdojo.com/media/posts/images/May2018/creating-your-first-chrome-extension.jpg)
+This is the chrome extension and should be loaded as unpacked extension on chrome.
