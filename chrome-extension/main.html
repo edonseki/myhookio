@@ -1,10 +1,65 @@
 <html>
     <head>
+        <title>MyHook | Expose your local API/Web to public</title>
 
+        <link rel="stylesheet" media="all" href="css/main.css" />
     </head>
     <body style="margin: 0px;">
-        <div style="background-color: #ff8f3f; height: 5px;"></div>
-        <div style="float: left; padding: 10px;">
+        <div class="materialContainer">
+            <div class="box">
+
+                <div class="title">Prepare your Hook to Listen</div>
+
+                <div class="input">
+                    <label for="host"></label>
+                    <input type="text" value="localhost" name="host" id="host">
+                    <span class="spin"></span>
+                </div>
+                <small style="margin-top: 10px;">Provide the host where local webserver is running</small><br><br>
+
+                <div class="input">
+                    <label for="host_port"></label>
+                    <input type="number" value="80" name="host_port" id="host_port">
+                    <span class="spin"></span>
+                </div>
+                <small style="margin-top: 10px;">Provide the port where local webserver is listening</small>
+
+                <div class="button login">
+                    <button><span>START</span> <i class="fa fa-check"></i></button>
+                </div>
+
+            </div>
+
+            <div class="overbox">
+                <div class="title">REGISTER</div>
+
+                <div class="input">
+                    <label for="regname">Username</label>
+                    <input type="text" name="regname" id="regname">
+                    <span class="spin"></span>
+                </div>
+
+                <div class="input">
+                    <label for="regpass">Password</label>
+                    <input type="password" name="regpass" id="regpass">
+                    <span class="spin"></span>
+                </div>
+
+                <div class="input">
+                    <label for="reregpass">Repeat Password</label>
+                    <input type="password" name="reregpass" id="reregpass">
+                    <span class="spin"></span>
+                </div>
+
+                <div class="button">
+                    <button><span>NEXT</span></button>
+                </div>
+
+
+            </div>
+
+        </div>
+        <!--<div style="float: left; padding: 10px;">
             <label>Your local host:</label>
             <input disabled id="host"  type="text" value="localhost">
             <label>Port:</label>
@@ -16,7 +71,7 @@
         <label style="padding: 10px;">Your hook URL:</label><b id="remote_url">-</b><br><br>
         <label style="padding: 10px;">Request History:</label><br>
         <div style="padding: 10px; overflow:scroll; height:600px;" id="request_history" >
-        </div>
+        </div>-->
     </body>
     <script src="js/socket.io.js"></script>
     <script src="js/jquery.js"></script>
