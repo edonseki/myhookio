@@ -3,9 +3,8 @@
     top: 0;
     opacity: 1;
     float: left;
-    padding: 60px 50px 40px 50px;
+    padding: 60px 60px 60px 60px;
     width: 100%;
-    background: #fff;
     border-radius: 10px;
     transform: scale(1);
     -webkit-transform: scale(1);
@@ -379,6 +378,7 @@ html {
     position: absolute;
     top: 50%;
     left: 50%;
+    margin-top: 18px;
     transform: translate(-50%, -50%);
     -webkit-transform: translate(-50%, -50%);
     -ms-transform: translate(-50%, -50%);
