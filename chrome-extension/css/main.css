@@ -28,7 +28,7 @@
     border-radius: 10px;
     position: absolute;
     top: -10px;
-    background: rgba(255, 255, 255, .6);
+    /*background: rgba(255, 255, 255, .6);*/
     left: 0;
     transform: scale(.95);
     -webkit-transform: scale(.95);
@@ -193,7 +193,7 @@
 
 .button button {
     background-color: #fff;
-    color: #ED2553;
+    color: #2b292a;
     border: none;
 }
 

@@ -1,14 +1,14 @@
 {
     "manifest_version": 2,
     "name": "MyHook",
-    "description": "This extension allows you exposing your internal server to public.",
+    "description": "MyHook allows you to expose your local webserver to public. It's very helpful to test API, Webhooks and other services.",
     "version": "1.0",
     "browser_action": {
         "default_icon": "image.png",
         "default_title": "MyHook"
     },
     "background" : {
-        "scripts" : ["background.js"]
+        "scripts" : ["js/jquery.js", "js/socket.io.js","background.js"]
     },
     "permissions": [
         "tabs",

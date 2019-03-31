@@ -1,4 +1,7 @@
 var started = false;
+$("#start_button").click(function(){
+    chrome.extension.sendMessage({ msg: "startFunc" });
+});
 $("#start_hook").click(() => {
     if (started) {
         socket.disconnect();
@@ -17,7 +20,7 @@ $("#start_hook").click(() => {
     }
 });
 function connect(){
-    socket = io.connect('http://www.quickcall.io');
+    socket = io.connect('http://myhook.io');
 
     const host = $("#host").val();
     const port = $("#host_port").val() == '80' ? '' : ':'+$("#host_port").val();
