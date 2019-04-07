@@ -103,7 +103,7 @@ io.on('connection', (socket) => {
     var subdomain = null;
 
     while (subdomain == null) {
-        const tempSubdomain = 'eki';//generateRandomString(8);
+        const tempSubdomain = generateRandomString(8);
         if (typeof socketClients[tempSubdomain] === 'undefined') {
             subdomain = tempSubdomain;
         }
