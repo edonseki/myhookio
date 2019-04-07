@@ -2,18 +2,77 @@
 <head>
     <title>MyHook | Workspace : </title>
 
-    <link rel="stylesheet" media="all" href="css/main.css"/>
+    <link rel="stylesheet" media="all" href="css/workspace.css"/>
 </head>
 <body style="margin: 0px;">
 <div style="background-color: #2b292a;
     width: 100%;
     height: 30px;">
-        <img style="width: 40px; margin-top: 10px; margin-left: 10px; fill: #ffffff;" src="images/myhook.svg">
-        <span style="color:white;background: green;  margin-bottom: 3px; border-radius: 10px; padding: 3px;">online</span>
-        <span style="float:right; color: #ffffff; margin-top: 7px; margin-right: 5px;">v 1.0.0</span>
+    <img style="width: 40px; margin-top: 10px; margin-left: 10px; fill: #ffffff;" src="images/myhook.svg">
+    <span style="float:right; color: #ffffff; margin-top: 7px; margin-right: 5px;">v 1.0.0</span>
 </div>
+<div>
+    <table border="1">
+        <tr>
+            <td>Status:</td>
+            <td>online</td>
+            <td>Public Hook:</td>
+            <td id="public_hook"></td>
+            <td>Your local hook:</td>
+            <td id="local_hook"></td>
+        </tr>
+    </table>
+</div>
+<div id="horizontalContainer" style="float: none; padding: 10px;">
+    <div id="horizontalDiv1" style="float: left; width: 50%;">
+        <div>
+            <h2 style="float: left">All Requests</h2>
+            <button class="clear_button">Clear All</button>
+            <br>
+        </div>
 
+        <table class="requests_table ">
+            <thead>
+
+            </thead>
+            <tbody>
+
+            </tbody>
+
+        </table>
+    </div>
+    <div id="horizontalDiv3" style="float: left; width: 50%;">
+        <!-- Tab links -->
+        <div class="tab">
+            <button class="tablinks" content="summary">Summary</button>
+            <button class="tablinks" content="headers">Headers</button>
+            <button class="tablinks" content="raw">Raw</button>
+            <button class="tablinks" content="binary">Binary</button>
+        </div>
+
+        <!-- Tab content -->
+        <div content-key="summary" class="tabcontent">
+            <h3>London</h3>
+            <p>London is the capital city of England.</p>
+        </div>
+
+        <div content-key="headers" class="tabcontent">
+            <h3>Paris</h3>
+            <p>Paris is the capital of France.</p>
+        </div>
+
+        <div content-key="raw" class="tabcontent">
+            <h3>Tokyo</h3>
+            <p>Tokyo is the capital of Japan.</p>
+        </div>
+
+        <div content-key="binary" class="tabcontent">
+            <h3>Tokyo</h3>
+            <p>Tokyo is the capital of Japan.</p>
+        </div>
+    </div>
+</div>
 </body>
 <script src="js/jquery.js"></script>
-<script src="js/main.js"></script>
+<script src="js/workspace.js"></script>
 </html>

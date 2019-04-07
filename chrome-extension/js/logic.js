@@ -4,11 +4,13 @@ let socket  = null;
 let listeningUrl = null;
 let publicSubdomain = null;
 const wssUrl = 'http://myhook.io';
+const requestHistory = {};
 
 const getConnectionDetails = () => {
     return {
         listeningUrl    : listeningUrl,
         publicSubdomain : publicSubdomain,
+        requestHistory  : requestHistory,
     };
 };
 
@@ -25,6 +27,7 @@ const startConnection = (listeningHost, listeningPort, sendResponse) => {
                 });
             }
         });
+        socket.on('onRequest', handleRequest);
         const port = listeningPort == '80' ? '' : ':'+listeningPort;
         listeningUrl = 'http://'+listeningHost+port;
     }
@@ -62,23 +65,18 @@ const emitResponseToSocket = (requestId, response) => {
         status          : response.status,
         status_text     : response.status_text
     };
-    //-- send response  $("#"+requestId+"_status").html("DONE");
+
+    let duration = new Date().getTime()-requestHistory[requestId].local_date.getTime();
+    responseBody.duration = duration;
+    chrome.runtime.sendMessage({body: responseBody, type: 'response'});
     socket.emit('onResponse', responseBody);
 };
 
 const handleRequest = (request) => {
-    const url = localUrl + request.path;
-
-    const currentDateTime = new Date();
-    /*const requestHistoryHtml = requestTemplate
-        .split("{{request_id}}").join(request.id)
-        .split("{{date_time}}").join(currentDateTime.toLocaleDateString())
-        .split("{{http_method}}").join(request.method)
-        .split("{{request_url}}").join(url)
-        .split("{{status}}").join("IN PROGRESS");
-    $("#request_history").append(requestHistoryHtml);*/
-
-
+    const url = listeningUrl + request.path;
+    chrome.runtime.sendMessage({body: request, type: 'request'});
+    request.local_date = new Date();
+    requestHistory[request.id] = request;
     $.ajax({
         url: url,
         headers: request.headers,

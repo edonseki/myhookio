@@ -1,22 +1,18 @@
 let currentWindow = null;
 
 chrome.browserAction.onClicked.addListener(function(tab) {
-    //const width = window.screen.availWidth/1.3;
-    //const height = window.screen.availHeight/1.3;
-    //const width = 490;
-    //const height= 712;
-    const width = window.screen.availWidth/1.3;
-    const height = window.screen.availHeight/1.3;
-    openWindow('workspace.html', width, height);
+    const width = 490;
+    const height= 712;
+    openWindow('main.html', width, height);
 });
 
 chrome.extension.onMessage.addListener(
     function(request, sender, sendResponse){
         if (typeof request.function !== 'undefined'){
             functionCallHandler(request, sender, sendResponse);
+            return true;
         }
-
-        return true;
+        return false;
     }
 );
 
@@ -35,8 +31,8 @@ const functionCallHandler = (request, sender, sendResponse) =>{
             const host = request.host;
             const port = request.port;
             startConnection(host, port, (response) => {
-                const width = window.screen.availWidth/1.1;
-                const height = window.screen.availHeight/1.1;
+                const width = window.screen.availWidth/1.3;
+                const height = window.screen.availHeight/1.3;
                 openWindow('workspace.html', parseInt(width), parseInt(height));
                 sendResponse(response);
             });
@@ -47,8 +43,8 @@ const functionCallHandler = (request, sender, sendResponse) =>{
             const height= 712;
             openWindow('main.html', width, height);
             break;
-        case '':
-
+        case 'getData':
+            sendResponse(getConnectionDetails());
             break;
     }
 }

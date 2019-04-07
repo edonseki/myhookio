@@ -38,7 +38,7 @@ const clientRequestHandler = (req, res) => {
         const headersToDelete = ['host', 'connection', 'accept-encoding', 'user-agent', 'referer'];
     
         const request = {
-            id              : subdomain+uuid.v4(),
+            id              : subdomain+'-'+uuid.v4(),
             headers         : req.headers,
             deleted_headers : {},
             query           : req.query,
@@ -51,8 +51,6 @@ const clientRequestHandler = (req, res) => {
             request.deleted_headers[headersToDelete[headerItem]] = request.headers[headersToDelete[headerItem]];
             delete request.headers[headersToDelete[headerItem]];
         }
-
-        console.log(request.headers);
 
         responsesWaiting[request.id] = {
             time     : new Date().getTime(),
@@ -105,7 +103,7 @@ io.on('connection', (socket) => {
     var subdomain = null;
 
     while (subdomain == null) {
-        const tempSubdomain = generateRandomString(8);
+        const tempSubdomain = 'eki';//generateRandomString(8);
         if (typeof socketClients[tempSubdomain] === 'undefined') {
             subdomain = tempSubdomain;
         }
@@ -113,7 +111,7 @@ io.on('connection', (socket) => {
 
     socketClients[subdomain] = socket;
     socketActivity[subdomain]= new Date().getTime();
-    subdomain = 'http://'+subdomain+'.quickcall.io/';
+    subdomain = 'http://'+subdomain+'.myhook.io/';
     console.log('New connection! Subdomain = '+subdomain);
 
     const responseHandler = (response) => {
