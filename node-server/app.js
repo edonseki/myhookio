@@ -82,7 +82,6 @@ app.get('/', (req, res) => {
 })
 
 app.get('/eki-stats', (req, res) => {
-    console.log(socketActivity);
     const stats = {
         connections         : parseInt(Object.keys(socketClients).length),
         responses_waiting   : parseInt(Object.keys(responsesWaiting).length)
