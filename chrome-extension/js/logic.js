@@ -30,6 +30,8 @@ const startConnection = (listeningHost, listeningPort, sendResponse) => {
         socket.on('onRequest', handleRequest);
         const port = listeningPort == '80' ? '' : ':'+listeningPort;
         listeningUrl = 'http://'+listeningHost+port;
+    }else{
+        sendResponse(false);
     }
 };
 
@@ -74,8 +76,8 @@ const emitResponseToSocket = (requestId, response) => {
 
 const handleRequest = (request) => {
     const url = listeningUrl + request.path;
-    chrome.runtime.sendMessage({body: request, type: 'request'});
     request.local_date = new Date();
+    chrome.runtime.sendMessage({body: request, type: 'request'});
     requestHistory[request.id] = request;
     $.ajax({
         url: url,
