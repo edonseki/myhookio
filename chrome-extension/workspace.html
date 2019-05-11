@@ -3,6 +3,7 @@
     <title>MyHook | Workspace : </title>
 
     <link rel="stylesheet" media="all" href="css/workspace.css"/>
+    <link rel="stylesheet" media="all" href="css/bootstrap.css"/>
 </head>
 <body style="margin: 0px;">
 <div style="background-color: #2b292a;
@@ -47,23 +48,36 @@
             <button class="tablinks" content="summary">Summary</button>
             <button class="tablinks" content="headers">Headers</button>
             <button class="tablinks" content="raw">Raw</button>
-            <button class="tablinks" content="binary">Binary</button>
+            <!--<button class="tablinks" content="binary">Binary</button>-->
         </div>
 
         <!-- Tab content -->
         <div content-key="summary" class="tabcontent">
-            <h3>London</h3>
-            <p>London is the capital city of England.</p>
+            <span id="content-length"></span> bytes  <span id="content-type">application/json</span>
+            <pre style="max-height: 550px;">
+                <code id="request_body">
+
+                </code>
+            </pre>
         </div>
 
         <div content-key="headers" class="tabcontent">
-            <h3>Paris</h3>
-            <p>Paris is the capital of France.</p>
+            <table id="request_headers" width="100%" class="table styles__params___3HKwZ">
+                <tr>
+                    <td>
+                        <b>Headers</b>
+                    </td>
+                    <td></td>
+                </tr>
+            </table>
         </div>
 
         <div content-key="raw" class="tabcontent">
-            <h3>Tokyo</h3>
-            <p>Tokyo is the capital of Japan.</p>
+            <pre style="max-height: 550px;">
+                <code>
+
+                </code>
+            </pre>
         </div>
 
         <div content-key="binary" class="tabcontent">

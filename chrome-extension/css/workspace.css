@@ -1,3 +1,6 @@
+* {
+    font-size:14px;
+}
 .requests_table{
     width: 98%;
     table-layout: fixed;
@@ -50,6 +53,18 @@ td:last-child {
     padding: 5px;
     text-align: left;
 }
+
+.code {
+    background: #eee;
+    width: 100%;
+    border-radius: 3px;
+    font-family: courier, monospace;
+    padding: 0 3px;
+    overflow: hidden;
+
+    height: 550px;
+}
+
 
 /* Style the tab */
 .tab {

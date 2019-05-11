@@ -50,5 +50,8 @@ const functionCallHandler = (request, sender, sendResponse) =>{
         case 'getData':
             sendResponse(getConnectionDetails());
             break;
+        case 'requestDetails':
+            sendResponse(requestHistory[request.request_id]);
+            break;
     }
 }
