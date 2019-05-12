@@ -34,7 +34,7 @@ const functionCallHandler = (request, sender, sendResponse) =>{
                 if(response === false || currentWindow !== null){
                     return;
                 }
-                const width = window.screen.availWidth/1.3;
+                const width = window.screen.availWidth/1.08;
                 const height = window.screen.availHeight/1.3;
                 openWindow('workspace.html', parseInt(width), parseInt(height));
                 currentWindow = {};
