@@ -13,7 +13,6 @@ const headersItemTemplate = '\n' +
 
 
 let prependRequestRow = (request) => {
-    console.log(request);
     let item = itemTemplate;
     item = item.split("{{request_id}}").join(request.id)
         .split("{{request_method}}").join(request.method)

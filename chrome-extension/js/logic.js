@@ -3,7 +3,7 @@ let startedAt = null;
 let socket  = null;
 let listeningUrl = null;
 let publicSubdomain = null;
-const wssUrl = 'http://myhook.io';
+const wssUrl = 'http://localhost:8283';
 const requestHistory = {};
 
 const getConnectionDetails = () => {
@@ -52,7 +52,7 @@ const emitResponseToSocket = (requestId, response) => {
     const unpreparedHeaders = response.getAllResponseHeaders().split("\r\n");
     const headers = {};
 
-    for(var i=0; i<unpreparedHeaders.length; i++){
+    for(let i=0; i<unpreparedHeaders.length; i++){
         const currentHeaderString = unpreparedHeaders[i];
         const splitIdx      = currentHeaderString.indexOf(':');
         const headerKey     = currentHeaderString.substring(0, splitIdx);

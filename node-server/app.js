@@ -17,6 +17,7 @@ const clientRequestHandler = (req, res) => {
         res.send('404 Not Found');
         return;
     }
+
     
     const subdomain = domainParts[0];
 
@@ -28,7 +29,7 @@ const clientRequestHandler = (req, res) => {
 
     socketActivity[subdomain] = new Date().getTime();
 
-    var body = '';
+    let body = '';
 
     req.on('data', chunk => {
         body += chunk.toString();
@@ -36,7 +37,7 @@ const clientRequestHandler = (req, res) => {
 
     req.on('end', () => {
         const headersToDelete = ['host', 'connection', 'accept-encoding', 'user-agent', 'referer'];
-    
+
         const request = {
             id              : subdomain+'-'+uuid.v4(),
             headers         : req.headers,
@@ -62,12 +63,12 @@ const clientRequestHandler = (req, res) => {
 }
 
 const generateRandomString = (length) => {
-    var text = "";
-    var possible = "abcdefghijklmnopqrstuvwxyz0123456789";
-  
-    for (var i = 0; i < length; i++)
+    let text = "";
+    let possible = "abcdefghijklmnopqrstuvwxyz0123456789";
+
+    for (let i = 0; i < length; i++)
       text += possible.charAt(Math.floor(Math.random() * possible.length));
-  
+
     return text;
 };
 
@@ -95,14 +96,15 @@ app.put('*', clientRequestHandler);
 app.delete('*', clientRequestHandler);
 
 
-server = app.listen(80);
+server = app.listen(8283);
 const io = require('socket.io')(server);
+console.log('Server started at: {host}:8283');
 
 io.on('connection', (socket) => {
-    var subdomain = null;
+    let subdomain = null;
 
     while (subdomain == null) {
-        const tempSubdomain = generateRandomString(8);
+        const tempSubdomain = '69vuv24d';//generateRandomString(8);
         if (typeof socketClients[tempSubdomain] === 'undefined') {
             subdomain = tempSubdomain;
         }
@@ -117,10 +119,19 @@ io.on('connection', (socket) => {
         if (typeof responsesWaiting[response.id] !== 'undefined' ) {
             const waitingResponse = responsesWaiting[response.id].response;
 
-            waitingResponse.statusCode = response.status;
-            for (const headerKey in response.headers ){
-                waitingResponse.setHeader(headerKey, response.headers[headerKey]);
+            //default response code is 404 in case the status code from response is not valid
+            waitingResponse.statusCode = 404;
+
+            if (typeof response.status !== 'undefined' && parseInt(response.status) > 0){
+                waitingResponse.statusCode = response.status;
             }
+
+            for (let headerKey in response.headers ){
+                waitingResponse.set(headerKey, response.headers[headerKey]);
+            }
+
+            console.log(waitingResponse.header['cache-control']);
+
             waitingResponse.send(response.response_text);
             delete responsesWaiting[response.id];
         }
@@ -134,14 +145,14 @@ io.on('connection', (socket) => {
 // jobs
 // -- response check
 const checkPendingRequests = () => {
-    for(var requestKey in responsesWaiting){
-        const response = responsesWaiting[requestKey];
+    for(let requestKey in responsesWaiting){
+        const response = responsesWaiting[requestKey].response;
         if (typeof response !== 'undefined'){
             const time = parseInt((new Date().getTime() - response.time)/1000);
             if(time >= 30){
-                waitingResponse.statusCode = 503;
-                waitingResponse.send('Timeout');
-                delete responsesWaiting[response.id]; 
+                response.statusCode = 503;
+                response.send('Timeout');
+                delete responsesWaiting[response.id];
             }
         }
     }
@@ -151,7 +162,7 @@ setInterval(checkPendingRequests, 1000);
 
 // -- socket activity check
 const checkSocketActivity = () => {
-    for(var socketKey in socketActivity){
+    for(let socketKey in socketActivity){
         const lastActivity = parseInt((new Date().getTime() - socketActivity[socketKey])/1000);
         const minutes = parseInt(lastActivity / 60);
         if(minutes >= 14){
