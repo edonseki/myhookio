@@ -130,8 +130,6 @@ io.on('connection', (socket) => {
                 waitingResponse.set(headerKey, response.headers[headerKey]);
             }
 
-            console.log(waitingResponse.header['cache-control']);
-
             waitingResponse.send(response.response_text);
             delete responsesWaiting[response.id];
         }
