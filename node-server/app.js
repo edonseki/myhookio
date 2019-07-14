@@ -96,15 +96,15 @@ app.put('*', clientRequestHandler);
 app.delete('*', clientRequestHandler);
 
 
-server = app.listen(8283);
+server = app.listen(80);
 const io = require('socket.io')(server);
-console.log('Server started at: {host}:8283');
+console.log('Server started at: {host}');
 
 io.on('connection', (socket) => {
     let subdomain = null;
 
     while (subdomain == null) {
-        const tempSubdomain = '69vuv24d';//generateRandomString(8);
+        const tempSubdomain = generateRandomString(8);
         if (typeof socketClients[tempSubdomain] === 'undefined') {
             subdomain = tempSubdomain;
         }
