@@ -60,6 +60,8 @@ const emitResponseToSocket = (requestId, response) => {
         headerKey.trim().length == 0 || (headers[headerKey] = headerValue);
     }
 
+    response.responseText = response.responseText.split(listeningUrl).join(publicSubdomain.substring(0, publicSubdomain.length-1)+":8283");
+
     const responseBody = {
         id              : requestId,
         headers         : headers,
@@ -71,6 +73,7 @@ const emitResponseToSocket = (requestId, response) => {
     let duration = new Date().getTime()-requestHistory[requestId].local_date.getTime();
     responseBody.duration = duration;
     chrome.runtime.sendMessage({body: responseBody, type: 'response'});
+
     socket.emit('onResponse', responseBody);
 };
 
@@ -79,6 +82,7 @@ const handleRequest = (request) => {
     request.local_date = new Date();
     chrome.runtime.sendMessage({body: request, type: 'request'});
     requestHistory[request.id] = request;
+
     $.ajax({
         url: url,
         headers: request.headers,

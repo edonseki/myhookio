@@ -126,7 +126,7 @@ io.on('connection', (socket) => {
                 waitingResponse.statusCode = response.status;
             }
 
-            const headersToIgnore = ['content-encoding'];
+            const headersToIgnore = ['content-encoding', 'transfer-encoding'];
 
             for (let headerKey in response.headers ){
                 if(headersToIgnore.indexOf(headerKey) !== -1){
