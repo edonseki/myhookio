@@ -60,7 +60,7 @@ const emitResponseToSocket = (requestId, response) => {
         headerKey.trim().length == 0 || (headers[headerKey] = headerValue);
     }
 
-    response.responseText = response.responseText.split(listeningUrl).join(publicSubdomain.substring(0, publicSubdomain.length-1)+":8283");
+    response.responseText = response.responseText.split(listeningUrl).join(publicSubdomain);
 
     const responseBody = {
         id              : requestId,
