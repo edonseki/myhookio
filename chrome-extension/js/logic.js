@@ -3,7 +3,7 @@ let startedAt = null;
 let socket  = null;
 let listeningUrl = null;
 let publicSubdomain = null;
-const wssUrl = 'http://localhost:8283';
+const wssUrl = 'http://myhook.io';
 const requestHistory = {};
 
 const getConnectionDetails = () => {
@@ -60,7 +60,7 @@ const emitResponseToSocket = (requestId, response) => {
         headerKey.trim().length == 0 || (headers[headerKey] = headerValue);
     }
 
-    response.responseText = response.responseText.split(listeningUrl).join(publicSubdomain);
+    response.responseText = response.responseText.split(listeningUrl).join(publicSubdomain.substring(0, publicSubdomain.length-1));
 
     const responseBody = {
         id              : requestId,
