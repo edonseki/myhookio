@@ -126,11 +126,21 @@ io.on('connection', (socket) => {
                 waitingResponse.statusCode = response.status;
             }
 
+            const headersToIgnore = ['content-encoding'];
+
             for (let headerKey in response.headers ){
+                if(headersToIgnore.indexOf(headerKey) !== -1){
+                    continue;
+                }
                 waitingResponse.set(headerKey, response.headers[headerKey]);
             }
 
-            waitingResponse.send(response.response_text);
+            try {
+                waitingResponse.send(response.response_text);
+            }catch(e){
+                console.log(e);
+            }
+
             delete responsesWaiting[response.id];
         }
     };
