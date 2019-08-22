@@ -177,10 +177,10 @@
     line-height: 64px;
     left: 0%;
     background-color: transparent;
-    border: 3px solid rgba(0, 0, 0, 0.1);
+    border: 3px solid rgba(241, 173, 173, 1);
     font-weight: 900;
     font-size: 18px;
-    color: rgba(0, 0, 0, 0.2);
+    color: rgba(173, 54, 54, 1);
 }
 
 .button.login {
