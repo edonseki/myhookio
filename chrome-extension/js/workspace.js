@@ -24,6 +24,10 @@ let prependRequestRow = (request) => {
 
 };
 
+window.onbeforeunload = function(e) {
+    chrome.extension.sendMessage({ function: "terminateTheExtension" }, (response) => {});
+};
+
 let clearDetailView = () => {
     $("#request_headers").find("tr:gt(0)").remove();
     $("#content-length").html("0");

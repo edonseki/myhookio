@@ -40,11 +40,23 @@ const stopConnection = (sendResponse) => {
         socket.disconnect();
         socket = null;
         started = false;
+        listeningUrl = null;
+        publicSubdomain = null;
+        requestHistory = {};
         if (typeof sendResponse !== 'undefined') {
             sendResponse({
                 code: 200
             });
         }
+    }
+};
+
+const terminateTheExtension = (sendResponse) => {
+    currentWindow = null;
+    stopConnection();
+
+    if(typeof sendResponse !== 'undefined'){
+        sendResponse({status: 200});
     }
 };
 

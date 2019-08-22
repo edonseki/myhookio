@@ -51,6 +51,9 @@ const functionCallHandler = (request, sender, sendResponse) =>{
             const height= 712;
             openWindow('main.html', width, height);
             break;
+        case 'terminateTheExtension':
+            terminateTheExtension();
+            break;
         case 'getData':
             sendResponse(getConnectionDetails());
             break;
