@@ -17,11 +17,15 @@ chrome.extension.onMessage.addListener(
 );
 
 const openWindow = (filename, width, height) => {
+    const left = parseInt((screen.width/2)-(width/2));
+    const top = parseInt((screen.height/2)-(height/2)); 
     chrome.windows.create({
         url: chrome.runtime.getURL(filename),
         type: "popup",
         width: parseInt(width),
-        height: parseInt(height)
+        height: parseInt(height),
+        left: left, 
+        top: top
     });
 };
 

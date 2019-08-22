@@ -4,7 +4,7 @@ let socket  = null;
 let listeningUrl = null;
 let publicSubdomain = null;
 const wssUrl = 'http://myhook.io';
-const requestHistory = {};
+let requestHistory = {};
 
 const getConnectionDetails = () => {
     return {
