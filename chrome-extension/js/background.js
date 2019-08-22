@@ -53,5 +53,8 @@ const functionCallHandler = (request, sender, sendResponse) =>{
         case 'requestDetails':
             sendResponse(requestHistory[request.request_id]);
             break;
+        case 'clearRequestHistory':
+            clearRequestHistory(request, sendResponse);
+            break;
     }
 }

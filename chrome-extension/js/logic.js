@@ -60,6 +60,7 @@ const emitResponseToSocket = (requestId, response) => {
         headerKey.trim().length == 0 || (headers[headerKey] = headerValue);
     }
 
+    //TODO this should be as an extra setting for the workspace user. For now it will be always performed.
     response.responseText = response.responseText.split(listeningUrl).join(publicSubdomain.substring(0, publicSubdomain.length-1));
 
     const responseBody = {
@@ -73,6 +74,9 @@ const emitResponseToSocket = (requestId, response) => {
     let duration = new Date().getTime()-requestHistory[requestId].local_date.getTime();
     responseBody.duration = duration;
     chrome.runtime.sendMessage({body: responseBody, type: 'response'});
+
+    //append response to request
+    requestHistory[requestId].response = responseBody;
 
     socket.emit('onResponse', responseBody);
 };
@@ -95,4 +99,9 @@ const handleRequest = (request) => {
             emitResponseToSocket(request.id, response);
         }
     });
+};
+
+const clearRequestHistory = (request, sendResponseCallback) => {
+    requestHistory = {};
+    sendResponseCallback({});
 };

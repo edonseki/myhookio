@@ -47,13 +47,14 @@
         <div class="tab">
             <button class="tablinks" content="summary">Summary</button>
             <button class="tablinks" content="headers">Headers</button>
-            <button class="tablinks" content="raw">Raw</button>
+            <button style="display: none" class="tablinks" content="response">Response</button>
+            <!--<button class="tablinks" content="raw">Raw</button>-->
             <!--<button class="tablinks" content="binary">Binary</button>-->
         </div>
 
         <!-- Tab content -->
         <div content-key="summary" class="tabcontent">
-            <span id="content-length"></span> bytes  <span id="content-type">application/json</span>
+            <span id="content-length">0</span> bytes  <span id="content-type">application/json</span>
             <pre style="max-height: 550px;">
                 <code id="request_body">
 
@@ -72,13 +73,30 @@
             </table>
         </div>
 
-        <div content-key="raw" class="tabcontent">
+        <div style="display: none;" content-key="response" class="tabcontent">
+            <table id="request_response_headers" width="100%" class="table styles__params___3HKwZ">
+                <tr>
+                    <td>
+                        <b>Headers</b>
+                    </td>
+                    <td></td>
+                </tr>
+            </table>
+            <b>Response Body:</b>
+            <pre style="max-height: 550px;">
+                <code id="request_response_body">
+
+                </code>
+            </pre>
+        </div>
+
+        <!--<div content-key="raw" class="tabcontent">
             <pre style="max-height: 550px;">
                 <code>
 
                 </code>
             </pre>
-        </div>
+        </div>-->
 
         <div content-key="binary" class="tabcontent">
             <h3>Tokyo</h3>

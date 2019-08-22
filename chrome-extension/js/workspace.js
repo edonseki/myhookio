@@ -24,10 +24,16 @@ let prependRequestRow = (request) => {
 
 };
 
-let addRequestHeadersInView = (request) => {
+let clearDetailView = () => {
     $("#request_headers").find("tr:gt(0)").remove();
-    $("#content-length").html("");
+    $("#content-length").html("0");
     $("#content-type").html("");
+    $('[content-key="response"]').css('display', 'none');
+    $('[content="response"]').css('display', 'none');
+}
+
+let addRequestHeadersInView = (request) => {
+    clearDetailView();
     for(const key in request.headers){
         $("#request_headers tbody").append(headersItemTemplate.split("{{key}}").join(key).split("{{value}}").join(request.headers[key]));
 
@@ -43,12 +49,22 @@ let addRequestHeadersInView = (request) => {
     }
 };
 
+let addRequestResponseHeadersInView = (response) => {
+    $("#request_response_headers").find("tr:gt(0)").remove();
+    for(const key in response.headers){
+        $("#request_response_headers tbody").append(headersItemTemplate.split("{{key}}").join(key).split("{{value}}").join(response.headers[key]));
+    }
+    /*for(const key in request.deleted_headers){
+        $("#request_response_headers tbody").append(headersItemTemplate.split("{{key}}").join(key).split("{{value}}").join(request.deleted_headers[key]));
+    }*/
+};
+
 let addRequestBodyInView = (request) => {
     $("#request_body").html("\n"+request.body);
 };
 
-let addRequestAsRawInView = (request) => {
-
+let addRequestResponseBodyInView = (response) => {
+    $("#request_response_body")[0].innerText = response.response_text;
 };
 
 let updateResponseDetails = (responseBody) => {
@@ -87,8 +103,25 @@ $(document).ready(() => {
 });
 
 $(".requests_table").delegate('tr', 'click', function() {
-    chrome.extension.sendMessage({ function: "requestDetails" , request_id : $(this).attr('row_id') }, (response) => {
-        addRequestHeadersInView(response);
-        addRequestBodyInView(response);
+    chrome.extension.sendMessage({ function: "requestDetails" , request_id : $(this).attr('row_id') }, (request) => {
+        addRequestHeadersInView(request);
+        addRequestBodyInView(request);
+        
+        if(typeof request.response !== 'undefined'){
+            addRequestResponseHeadersInView(request.response);
+            addRequestResponseBodyInView(request.response);
+            $('[content-key="response"]').css('display', 'block');
+            $('[content="response"]').css('display', 'block');
+        }else{
+            $('[content-key="response"]').css('display', 'none');
+            $('[content="response"]').css('display', 'none');
+        }
+    });
+});
+
+$(".clear_button").click(function (){
+    chrome.extension.sendMessage({ function: "clearRequestHistory" }, (response) => {
+        $(".requests_table > tbody").empty();
+        clearDetailView();
     });
 });
