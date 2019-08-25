@@ -14,24 +14,35 @@ const getConnectionDetails = () => {
     };
 };
 
+const connectionErrorCallback = () => {
+    console.log('errors');
+}
+
 const startConnection = (listeningHost, listeningPort, sendResponse) => {
     if (socket == null || !started) {
-        socket = io.connect(wssUrl);
-        socket.on('onSubdomainPrepared', (subdomain) => {
-            started = true;
-            publicSubdomain = subdomain;
-            startedAt = new Date();
-            if (typeof sendResponse !== 'undefined') {
-                sendResponse({
-                    code: 200
-                });
-            }
-        });
-        socket.on('onRequest', handleRequest);
-        const port = listeningPort == '80' ? '' : ':'+listeningPort;
-        listeningUrl = 'http://'+listeningHost+port;
+        try {
+            socket = io.connect(wssUrl);
+            socket.on("disconnect", connectionErrorCallback);
+            socket.on("connect_failed", connectionErrorCallback);
+            socket.on("connect_error", connectionErrorCallback);
+            socket.on('onSubdomainPrepared', (subdomain) => {
+                started = true;
+                publicSubdomain = subdomain;
+                startedAt = new Date();
+                if (typeof sendResponse !== 'undefined') {
+                    sendResponse({
+                        code: 200
+                    });
+                }
+            });
+            socket.on('onRequest', handleRequest);
+            const port = listeningPort == '80' ? '' : ':'+listeningPort;
+            listeningUrl = 'http://'+listeningHost+port;
+        }catch (e){
+            sendResponse({});
+        }
     }else{
-        sendResponse(false);
+        sendResponse({});
     }
 };
 

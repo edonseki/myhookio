@@ -1,5 +1,6 @@
 const express = require('express' );
 const uuid = require('uuid');
+const ping = require('ping');
 
 const app = express();
 app.set('view engine', 'ejs');
@@ -82,6 +83,22 @@ app.get('/', (req, res) => {
     }
 })
 
+app.get('/url-check', (req, res) => {
+    if (typeof req.query.url === 'undefined'){
+        res.send({alive: true});
+        return;
+    }
+    const cfg = {
+        timeout: 10,
+        // WARNING: -i 2 may not work in other platform like window
+        extra: ["-i 2"],
+    };
+
+    ping.sys.probe(req.query.url , function(isAlive){
+        res.send({alive: isAlive});
+    }, cfg);
+})
+
 app.get('/eki-stats', (req, res) => {
     const stats = {
         connections         : parseInt(Object.keys(socketClients).length),
@@ -96,7 +113,7 @@ app.put('*', clientRequestHandler);
 app.delete('*', clientRequestHandler);
 
 
-server = app.listen(80);
+server = app.listen(884);
 const io = require('socket.io')(server);
 console.log('Server started at: {host}');
 
