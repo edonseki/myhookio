@@ -94,11 +94,17 @@ $(document).ready(() => {
         $(".tabcontent").css('display','none');
         $("[content-key="+$(this).attr("content")+"]").css('display','block');
     });
-    $("[content=summary]").click();
+    $("[content='summary']").click();
 
     chrome.extension.sendMessage({ function: "getData" }, (response) => {
+        if(typeof response.listeningUrl !== 'undefined' && response.listeningUrl == null){
+           alert('Seems the connection to MyHook is lost. The extension will be closed.');
+           window.close();
+           return;
+        }
         $("#public_hook").html(response.publicSubdomain);
         $("#local_hook").html(response.listeningUrl);
+        document.title += ' '+response.publicSubdomain;
         const requests = response.requestHistory;
         for (const key in requests){
             prependRequestRow(requests[key]);
@@ -120,6 +126,9 @@ $(".requests_table").delegate('tr', 'click', function() {
             $('[content-key="response"]').css('display', 'none');
             $('[content="response"]').css('display', 'none');
         }
+
+
+        $("[content='summary']").click();
     });
 });
 
