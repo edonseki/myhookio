@@ -88,6 +88,12 @@ app.get('/url-check', (req, res) => {
         res.send({alive: true});
         return;
     }
+
+    if(req.query.url === 'localhost'){
+        res.send({alive: false});
+        return;
+    }
+
     const cfg = {
         timeout: 10,
         // WARNING: -i 2 may not work in other platform like window
