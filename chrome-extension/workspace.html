@@ -1,6 +1,6 @@
 <html>
 <head>
-    <title>MyHook | Workspace: </title>
+    <title>MyHook | Workspace : </title>
 
     <link rel="stylesheet" media="all" href="css/workspace.css"/>
     <link rel="stylesheet" media="all" href="css/bootstrap.css"/>
@@ -9,27 +9,25 @@
 <div style="background-color: #2b292a;
     width: 100%;
     height: 30px;">
-    <img style="width: 40px; margin-top: 10px; margin-left: 10px; fill: #ffffff;" src="images/myhook.svg">
+    <img style="float: left; width: 40px; margin-top: 8px; margin-left: 10px; fill: #ffffff;" src="images/myhook.svg">
+    <table style="float: left; color: white; margin-left:25px; margin-top:5px;">
+            <tr>
+                <td><b>Public Hook:</b>&nbsp;</td>
+                <td class="reds" id="public_hook"></td>
+                <td>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<b>Local hook:</b>&nbsp;</td>
+                <td class="reds" id="local_hook"></td>
+            </tr>
+        </table>
     <span style="float:right; color: #ffffff; margin-top: 7px; margin-right: 5px;">v 1.0.0</span>
-</div>
-<div>
-    <table border="1">
-        <tr>
-            <td>Status:</td>
-            <td>online</td>
-            <td>Public Hook:</td>
-            <td id="public_hook"></td>
-            <td>Your local hook:</td>
-            <td id="local_hook"></td>
-        </tr>
-    </table>
 </div>
 <div id="horizontalContainer" style="float: none; padding: 10px;">
     <div id="horizontalDiv1" style="float: left; width: 50%;">
         <div>
-            <h2 style="float: left">All Requests</h2>
+            <h4 style="float: left;">All Requests</h2>
+            <small style="float:left;margin-top: 32px;margin-left: -104px;">The requests from the public hook will appear in the list below.</small>
             <button class="clear_button">Clear All</button>
-            <br>
+            <br><br>
+            <hr>
         </div>
 
         <table class="requests_table ">
@@ -52,25 +50,30 @@
         </div>
 
         <!-- Tab content -->
-        <div content-key="summary" class="tabcontent">
-            <table id="request_headers" width="100%" class="table styles__params___3HKwZ">
-                <tr>
-                    <td>
-                        <b>Headers</b>
-                    </td>
-                    <td></td>
-                </tr>
-            </table>
-            <b>Request Body:</b>
-            <span id="content-length">0</span> bytes  <span id="content-type">application/json</span>
-            <pre style="max-height: 550px;">
-                <code id="request_body">
+        <div style="overflow: hidden; overflow-y: scroll;" content-key="summary" class="tabcontent">
+            <div style="display: none;" id="request_details_div">
+                <table id="request_headers" width="100%" class="table styles__params___3HKwZ">
+                    <tr>
+                        <td>
+                            <b>Headers</b>
+                        </td>
+                        <td></td>
+                    </tr>
+                </table>
+                <b>Request Body:</b>
+                <span id="content-length">0</span> bytes  <span id="content-type">--/--</span>
+                <pre style="max-height: 550px;">
+                    <code id="request_body">
 
-                </code>
-            </pre>
+                    </code>
+                </pre>
+            </div>
+            <div id="no_request_div">
+                <i>After a request is catched the details will appear here.</i>
+            </div>
         </div>
 
-        <div style="display: none;" content-key="response" class="tabcontent">
+        <div style="display: none; overflow: hidden; overflow-y: scroll;" content-key="response" class="tabcontent">
             <table id="request_response_headers" width="100%" class="table styles__params___3HKwZ">
                 <tr>
                     <td>
@@ -95,6 +98,9 @@
             </pre>
         </div>-->
     </div>
+</div>
+<div style="position: absolute; bottom: 0px; background-color:#2b292a; height: 30px; width: 100%">
+
 </div>
 </body>
 <script src="js/jquery.js"></script>

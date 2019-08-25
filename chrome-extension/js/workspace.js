@@ -1,6 +1,7 @@
 const itemTemplate = '<tr class="request_row" row_id="{{request_id}}">\n' +
+                        '<td style="width: 42px;">{{request_time}}</td>\n' +
                         '<td style="width: 42px;">{{request_method}}</td>\n' +
-                        '<td style="width: 76%">{{request_path}}</td>\n' +
+                        '<td style="width: 84%">{{request_path}}</td>\n' +
                         '<td id="rsp{{request_id}}" style="width: 42px;">{{request_response}}</td>\n' +
                         '<td id="drt{{request_id}}"style="width: 42px;">{{request_duration}}</td>\n' +
                     '</tr>';
@@ -15,13 +16,13 @@ const headersItemTemplate = '\n' +
 let prependRequestRow = (request) => {
     let item = itemTemplate;
     item = item.split("{{request_id}}").join(request.id)
+        .split("{{request_time}}").join(new Date().toISOString().slice(0, 19).replace('T', ' '))
         .split("{{request_method}}").join(request.method)
         .split("{{request_path}}").join(request.path)
         .split("{{request_response}}").join("...")
         .split("{{request_duration}}").join("...");
 
     $(item).prependTo(".requests_table > tbody");
-
 };
 
 window.onbeforeunload = function(e) {
@@ -34,6 +35,8 @@ let clearDetailView = () => {
     $("#content-type").html("");
     $('[content-key="response"]').css('display', 'none');
     $('[content="response"]').css('display', 'none');
+    $("#no_request_div").css("display", "block");
+    $("#request_details_div").css("display", "none");
 }
 
 let addRequestHeadersInView = (request) => {
@@ -84,8 +87,18 @@ chrome.runtime.onMessage.addListener((message) => {
         case 'response':
             updateResponseDetails(message.body);
             break;
+        case 'status':
+            handleConnectionStatus(message);
+            break;
     }
 });
+
+const handleConnectionStatus = (status) => {
+    if (!status){
+        alert('Connection to MyHook is lost. The plugin will be closed.');
+        window.close();
+    }
+}
 
 $(document).ready(() => {
     $(".tablinks").click(function(){
@@ -129,6 +142,9 @@ $(".requests_table").delegate('tr', 'click', function() {
 
 
         $("[content='summary']").click();
+
+        $("#no_request_div").css("display", "none");
+        $("#request_details_div").css("display", "block");
     });
 });
 

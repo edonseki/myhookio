@@ -15,7 +15,7 @@ const getConnectionDetails = () => {
 };
 
 const connectionErrorCallback = () => {
-    console.log('errors');
+    chrome.runtime.sendMessage({body: false, type: 'status'});
 }
 
 const startConnection = (listeningHost, listeningPort, sendResponse) => {

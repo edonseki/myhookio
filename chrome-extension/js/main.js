@@ -18,11 +18,13 @@ $("#start_button").click(function(){
     button.html("...");
     button.attr("disabled", true);
     const checkUrl = 'http://myhook.io/url-check?url='+$("#host").val().trim();
-    $.get(checkUrl, function(response){
-        console.log(response.alive);
-        if (typeof response !== 'undefined' && 
-            typeof response.alive !== 'undefined' &&
-            response.alive === false){
+    $.ajax({
+        url: checkUrl,
+        method: 'GET',
+        success: (response,status,a1) => {
+            if (typeof response !== 'undefined' && 
+                typeof response.alive !== 'undefined' &&
+                response.alive === false){
                 chrome.extension.sendMessage({ function: "startConnection", host: $("#host").val(), port: $("#host_port").val() }, (response) => {
                     if (typeof response !== 'undefined' && response.code === 200){
                         window.close();
@@ -32,12 +34,17 @@ $("#start_button").click(function(){
                         alert("Could not create connection to server. Please restart the extension and check the internet connection.");
                     }
                 });
-        }else {
+            }else {
+                button.attr("disabled", false);
+                button.html("START");
+                alert('Seems your localhook ('+$("#host").val().trim()+') is accessible from external network. Your localhook should ping to internal network.');
+            }
+        },
+        error: (response, status, error) => {
             button.attr("disabled", false);
             button.html("START");
-            alert('Seems your localhook ('+$("#host").val().trim()+') is accessible from external network. Your localhook should ping to internal network.');
+            alert('MyHook is not reachable. Please check your internet connection!');
         }
-        
     });
 
 });
