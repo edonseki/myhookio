@@ -113,7 +113,7 @@ app.put('*', clientRequestHandler);
 app.delete('*', clientRequestHandler);
 
 
-server = app.listen(884);
+server = app.listen(80);
 const io = require('socket.io')(server);
 console.log('Server started at: {host}');
 
