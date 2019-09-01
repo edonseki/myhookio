@@ -1,0 +1,82 @@
+<html>
+<head>
+    <title>MyHook | Configure your local webserver hook</title>
+
+    <link rel="stylesheet" media="all" href="css/main.css"/>
+</head>
+<body style="margin: 0px;">
+<div style="background-color: #2b292a;
+    width: 100%;
+    height: 98px;">
+    <center>
+        <img style="width: 175px; margin-top: 20px; fill: #ffffff;" src="images/myhook.svg"> <br>
+    </center>
+</div>
+<br>
+<center>
+    <p style="width: 400px;text-align: left;margin-top: 19px;">After you define the correct host and port click <b>Start</b> and in the next page more details will be provided about your public hook.</p></center>
+<div class="materialContainer">
+    <div class="box">
+        <div class="input">
+            <label for="host"></label>
+            <input type="text" value="localhost" name="host" id="host">
+            <span class="spin"></span>
+        </div>
+        <small style="margin-top: 10px;">The host which will handle the requests from outside.</small>
+        <br><br>
+
+        <div class="input">
+            <label for="host_port"></label>
+            <input type="number" value="80" name="host_port" id="host_port">
+            <span class="spin"></span>
+        </div>
+        <small style="margin-top: 10px;">The port where local webserver is listening</small>
+
+        <div class="button login">
+            <button id="start_button"><span>START</span> <i class="fa fa-check"></i></button>
+        </div>
+
+    </div>
+
+    <div class="overbox">
+        <div class="title">REGISTER</div>
+
+        <div class="input">
+            <label for="regname">Username</label>
+            <input type="text" name="regname" id="regname">
+            <span class="spin"></span>
+        </div>
+
+        <div class="input">
+            <label for="regpass">Password</label>
+            <input type="password" name="regpass" id="regpass">
+            <span class="spin"></span>
+        </div>
+
+        <div class="input">
+            <label for="reregpass">Repeat Password</label>
+            <input type="password" name="reregpass" id="reregpass">
+            <span class="spin"></span>
+        </div>
+
+        <div class="button">
+            <button><span>NEXT</span></button>
+        </div>
+
+
+    </div>
+
+</div>
+<div style="position: absolute;bottom: 101px;width: 100%;height: 1px;background-color: #a2a1a1;"></div>
+<p style="left:30px;position: absolute; bottom: 70px;">
+    In case you want to help improving the platform then you're welcome to donate.<br></p>
+<form style="left:170px;position: absolute; bottom: 10px;" action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
+    <input type="hidden" name="cmd" value="_s-xclick" />
+    <input type="hidden" name="hosted_button_id" value="5LUQCZ6XQBXR4" />
+    <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif" border="0" name="submit" title="PayPal - The safer, easier way to pay online!" alt="Donate with PayPal button" />
+    <img alt="" border="0" src="https://www.paypal.com/en_RS/i/scr/pixel.gif" width="1" height="1" />
+</form>
+</body>
+<script src="js/jquery.js"></script>
+<script src="js/main.js"></script>
+</html>
