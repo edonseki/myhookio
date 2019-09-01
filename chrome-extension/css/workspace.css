@@ -54,6 +54,10 @@ td.reds::-moz-selection {
 
 }
 
+.clear_button:hover{
+    background-color: #ccc;
+}
+
 .clear_button {
     background-color: #f1f1f1;
     float: right;
@@ -62,7 +66,13 @@ td.reds::-moz-selection {
     cursor: pointer;
     padding: 14px 16px;
     transition: 0.3s;
-    margin-right: 13px;
+    margin-top: 1px;
+    margin-right: -1px;
+    height: 57px;
+}
+
+.clear_button button:hover{
+    background-color: #ddd;
 }
 
 .requests_table th, .requests_table td {
@@ -119,7 +129,7 @@ td.reds::-moz-selection {
     padding: 6px 12px;
     border: 1px solid #ccc;
     border-top: none;
-    border-left: none;
+    border-bottom: none;
     height: 80%;
 }
 

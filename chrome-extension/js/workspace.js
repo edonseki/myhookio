@@ -10,20 +10,35 @@ const headersItemTemplate = '\n' +
     '                <tr>\n' +
     '                    <td width="50%">{{key}}</td>\n' +
     '                    <td width="50%"><small>{{value}}</small></td>\n' +
-    '                </tr>';
+    '                </tr>'; 
 
 
-let prependRequestRow = (request) => {
+const prependRequestRow = (request) => {
     let item = itemTemplate;
+    const time = new Date().toISOString().slice(0, 19).replace('T', ' ').split(' ')[1];
     item = item.split("{{request_id}}").join(request.id)
-        .split("{{request_time}}").join(new Date().toISOString().slice(0, 19).replace('T', ' '))
+        .split("{{request_time}}").join(time)
         .split("{{request_method}}").join(request.method)
         .split("{{request_path}}").join(request.path)
         .split("{{request_response}}").join("...")
         .split("{{request_duration}}").join("...");
 
+
+        $("#s_no_request_div").css("display", "none");
+
     $(item).prependTo(".requests_table > tbody");
 };
+
+
+let seconds = 0;
+let totalRequests = 0;
+let totalResponses = 0;
+
+let windowSize = {};
+
+$(window).resize(function(){
+    window.resizeTo(windowSize.width,windowSize.height);
+});
 
 window.onbeforeunload = function(e) {
     chrome.extension.sendMessage({ function: "terminateTheExtension" }, (response) => {});
@@ -36,6 +51,7 @@ let clearDetailView = () => {
     $('[content-key="response"]').css('display', 'none');
     $('[content="response"]').css('display', 'none');
     $("#no_request_div").css("display", "block");
+    $("#s_no_request_div").css("display", "block");
     $("#request_details_div").css("display", "none");
 }
 
@@ -54,6 +70,17 @@ let addRequestHeadersInView = (request) => {
     for(const key in request.deleted_headers){
         $("#request_headers tbody").append(headersItemTemplate.split("{{key}}").join(key).split("{{value}}").join(request.deleted_headers[key]));
     }
+
+    if (request.origin.substr(0, 7) == "::ffff:") {
+        request.origin = request.origin.substr(7);
+      }
+    $("#request_url").html(request.path);
+    $("#request_method").html(request.method);
+    $("#request_status_code").html(request.response ? request.response.status : '-');
+    $("#request_remote_address").html(request.origin);
+
+    $("#no_request_div").css("display", "none");
+    $("#s_no_request_div").css("display", "none");
 };
 
 let addRequestResponseHeadersInView = (response) => {
@@ -82,16 +109,25 @@ let updateResponseDetails = (responseBody) => {
 chrome.runtime.onMessage.addListener((message) => {
     switch (message.type){
         case 'request':
+            totalRequests ++;
             prependRequestRow(message.body);
+            updateStats();
             break;
         case 'response':
+            totalResponses++;
             updateResponseDetails(message.body);
+            updateStats();
             break;
         case 'status':
             handleConnectionStatus(message);
             break;
     }
 });
+
+const updateStats = () => {
+    $("#total_requests_count").html(totalRequests);
+    $("#total_responses_count").html(totalResponses);
+}
 
 const handleConnectionStatus = (status) => {
     if (!status){
@@ -101,6 +137,9 @@ const handleConnectionStatus = (status) => {
 }
 
 $(document).ready(() => {
+    const width = window.screen.availWidth/1.08;
+    const height = window.screen.availHeight/1.3;
+    windowSize = {width: width, height: height};
     $(".tablinks").click(function(){
         $(".tablinks").removeClass('active');
         $(this).addClass('active');
@@ -122,8 +161,20 @@ $(document).ready(() => {
         for (const key in requests){
             prependRequestRow(requests[key]);
         }
+
+        startTimer();
     });
 });
+
+
+const startTimer = () => {
+    function pad ( val ) { return val > 9 ? val : "0" + val; }
+    setInterval( function(){
+        $("#tr_seconds").html(pad(++seconds%60)+"");
+        $("#tr_minutes").html(pad(parseInt(seconds/60,10))+"");
+        $("#tr_hours").html(pad(parseInt(seconds/60/60,10))+"");
+    }, 1000);
+}
 
 $(".requests_table").delegate('tr', 'click', function() {
     chrome.extension.sendMessage({ function: "requestDetails" , request_id : $(this).attr('row_id') }, (request) => {
@@ -152,5 +203,46 @@ $(".clear_button").click(function (){
     chrome.extension.sendMessage({ function: "clearRequestHistory" }, (response) => {
         $(".requests_table > tbody").empty();
         clearDetailView();
+        $("#no_request_div").css("display", "block");
+        $("#s_no_request_div").css("display", "block");
     });
 });
+
+$("#p_hook_copy").click(function(){
+  var textArea = document.createElement("textarea");
+  textArea.value = $("#public_hook").html().trim();
+  document.body.appendChild(textArea);
+  textArea.focus();
+  textArea.select();
+
+  let successful = false;
+  try {
+    successful = document.execCommand('copy');  
+  } catch (err) {
+    successful = false;
+  }
+  document.body.removeChild(textArea);
+
+  $("#p_hook_copy").css("color", successful?'green':'red');
+  setTimeout(function(){$("#p_hook_copy").css("color", 'white');}, 1000);
+});
+
+$("#pr_hook_copy").click(function(){
+    var textArea = document.createElement("textarea");
+    textArea.value = $("#local_hook").html().trim();
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+  
+    let successful = false;
+    try {
+      successful = document.execCommand('copy');  
+    } catch (err) {
+      successful = false;
+    }
+    document.body.removeChild(textArea);
+  
+    $("#pr_hook_copy").css("color", successful?'green':'red');
+    setTimeout(function(){$("#pr_hook_copy").css("color", 'white');}, 1000);
+  });
+

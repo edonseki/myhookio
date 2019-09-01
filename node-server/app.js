@@ -46,7 +46,8 @@ const clientRequestHandler = (req, res) => {
             query           : req.query,
             body            : body,
             path            : req.originalUrl,
-            method          : req.method
+            method          : req.method,
+            origin          : req.socket.remoteAddress
         };
 
         for (const headerItem in headersToDelete) {

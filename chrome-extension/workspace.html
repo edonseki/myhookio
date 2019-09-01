@@ -8,16 +8,18 @@
 <body style="margin: 0px;">
 <div style="background-color: #2b292a;
     width: 100%;
-    height: 30px;">
+    height: 32px;">
     <img style="float: left; width: 40px; margin-top: 8px; margin-left: 10px; fill: #ffffff;" src="images/myhook.svg">
     <table style="float: left; color: white; margin-left:25px; margin-top:5px;">
-            <tr>
-                <td><b>Public Hook:</b>&nbsp;</td>
-                <td class="reds" id="public_hook"></td>
-                <td>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<b>Local hook:</b>&nbsp;</td>
-                <td class="reds" id="local_hook"></td>
-            </tr>
-        </table>
+        <tr>
+            <td><span>Public Hook:</span>&nbsp;</td>
+            <td class="reds" style="background-color: #7f7d7d; padding: 3px; border-radius: 3px;" id="public_hook"></td>
+            <td>&nbsp;&nbsp;&nbsp;<small id="p_hook_copy" style="cursor: pointer;">copy</small></i></td>
+            <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>Local hook:</span>&nbsp;</td>
+            <td class="reds" style="background-color: #7f7d7d; padding: 3px; border-radius: 3px;" id="local_hook"></td>
+            <td>&nbsp;&nbsp;&nbsp;<small id="pr_hook_copy" style="cursor: pointer;">copy</small></i></td>
+        </tr>
+    </table>
     <span style="float:right; color: #ffffff; margin-top: 7px; margin-right: 5px;">v 1.0.0</span>
 </div>
 <div id="horizontalContainer" style="float: none; padding: 10px;">
@@ -30,9 +32,14 @@
             <hr>
         </div>
 
+        <div id="s_no_request_div">
+                <img src="images/request-waiting.svg" style="width: 35px;position: absolute;top: 47%;left: 20%;">
+                <i style="position: absolute;top: 54%;left: 10%;">After a request is catched the details will appear here.</i>
+            </div>
+
         <table class="requests_table ">
             <thead>
-
+                    
             </thead>
             <tbody>
 
@@ -52,6 +59,30 @@
         <!-- Tab content -->
         <div style="overflow: hidden; overflow-y: scroll;" content-key="summary" class="tabcontent">
             <div style="display: none;" id="request_details_div">
+                <table id="request_details" width="100%" class="table styles__params___3HKwZ">
+                    <tr>
+                        <td>
+                            <b>General</b>
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td width="50%">Request</td>
+                        <td width="50%"><small id='request_url'>{{value}}</small></td>
+                    </tr>
+                    <tr>
+                        <td width="50%">Request Method</td>
+                        <td width="50%"><small id='request_method'>{{value}}</small></td>
+                    </tr>
+                    <tr>
+                        <td width="50%">Status Code</td>
+                        <td width="50%"><small id='request_status_code'>{{value}}</small></td>
+                    </tr>
+                    <tr>
+                        <td width="50%">Remote Address</td>
+                        <td width="50%"><small id='request_remote_address'>{{value}}</small></td>
+                    </tr>
+                </table>
                 <table id="request_headers" width="100%" class="table styles__params___3HKwZ">
                     <tr>
                         <td>
@@ -69,7 +100,8 @@
                 </pre>
             </div>
             <div id="no_request_div">
-                <i>After a request is catched the details will appear here.</i>
+                <img src="images/info.svg" style="width: 35px;position: absolute;top: 47%;left: 73%;">
+                <i style="position: absolute;top: 54%;left: 64%;">After a request is catched the details will appear here.</i>
             </div>
         </div>
 
@@ -99,8 +131,17 @@
         </div>-->
     </div>
 </div>
-<div style="position: absolute; bottom: 0px; background-color:#2b292a; height: 30px; width: 100%">
-
+<div style="position: absolute; bottom: 0px; background-color:#2b292a; height: 32px; width: 100%">
+    <table style="float: left; color: white; margin-left:25px; margin-top:5px;">
+        <tr>
+            <td>Total Requests:</td>
+            <td class="reds" style="background-color: #7f7d7d; padding: 3px; border-radius: 3px;" id="total_requests_count">0</td>
+            <td>&nbsp;&nbsp;&nbsp;Total Responses:</td>
+            <td class="reds" style="background-color: #7f7d7d; padding: 3px; border-radius: 3px;" id="total_responses_count">0</td>
+            <td>&nbsp;&nbsp;&nbsp;Running Time:</td>
+            <td><span style="background-color: #7f7d7d; padding: 3px; border-radius: 3px;" id="tr_hours"></span>:<span style="background-color: #7f7d7d; padding: 3px; border-radius: 3px;" id="tr_minutes"></span>:<span style="background-color: #7f7d7d; padding: 3px; border-radius: 3px;" id="tr_seconds"></span></td>
+        </tr>
+    </table>
 </div>
 </body>
 <script src="js/jquery.js"></script>
