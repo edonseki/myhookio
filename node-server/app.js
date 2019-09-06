@@ -1,7 +1,9 @@
 const express = require('express' );
 const uuid = require('uuid');
 const ping = require('ping');
-var fs = require('fs');
+const fs = require('fs');
+const http = require('http')
+const https = require('https')
 
 const app = express();
 app.set('view engine', 'ejs');
@@ -10,6 +12,7 @@ app.use(express.static('public'));
 const socketClients = {};
 const socketActivity = {};
 const responsesWaiting = {};
+
 
 const clientRequestHandler = (req, res) => {
     //this should be called only when requested from subdomain
@@ -127,8 +130,19 @@ app.post('*', clientRequestHandler);
 app.put('*', clientRequestHandler);
 app.delete('*', clientRequestHandler);
 
+const serverOptions = {
+    key: fs.readFileSync('/etc/letsencrypt/live/myhook.io/privkey.pem'),
+    cert: fs.readFileSync('/etc/letsencrypt/live/myhook.io/fullchain.pem'),
+    ca: fs.readFileSync('/etc/letsencrypt/live/myhook.io/fullchain.pem')
+};
 
-server = app.listen(80);
+//redirect http to https
+http.createServer(function (req, res) {
+    res.writeHead(301, { "Location": "https://" + req.headers['host'] + req.url });
+    res.end();
+}).listen(80);
+
+const server = https.createServer(serverOptions, app).listen(443);
 const io = require('socket.io')(server);
 console.log('Server started at: {host}');
 
