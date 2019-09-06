@@ -1,6 +1,7 @@
 const express = require('express' );
 const uuid = require('uuid');
 const ping = require('ping');
+var fs = require('fs');
 
 const app = express();
 app.set('view engine', 'ejs');
@@ -13,13 +14,20 @@ const responsesWaiting = {};
 const clientRequestHandler = (req, res) => {
     //this should be called only when requested from subdomain
     const domainParts = req.headers.host.split('.');
+
+    if (req.originalUrl.indexOf('.well-known') !== -1){
+        res.statusCode = 200;
+        const code = fs.readFileSync('wll.txt', 'utf8');
+        res.send(code);
+        return;
+    }
+
     if (domainParts.length <= 2) {
         res.statusCode = 404;
         res.send('404 Not Found');
         return;
     }
 
-    
     const subdomain = domainParts[0];
 
     if (typeof socketClients[subdomain] === 'undefined') {
