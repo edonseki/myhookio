@@ -158,7 +158,7 @@ io.on('connection', (socket) => {
 
     socketClients[subdomain] = socket;
     socketActivity[subdomain]= new Date().getTime();
-    subdomain = 'http://'+subdomain+'.myhook.io/';
+    subdomain = 'https://'+subdomain+'.myhook.io/';
     console.log('New connection! Subdomain = '+subdomain);
 
     const responseHandler = (response) => {

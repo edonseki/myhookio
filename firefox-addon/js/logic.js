@@ -3,7 +3,7 @@ let startedAt = null;
 let socket  = null;
 let listeningUrl = null;
 let publicSubdomain = null;
-const wssUrl = 'http://myhook.io';
+const wssUrl = 'https://myhook.io';
 let requestHistory = {};
 
 const getConnectionDetails = () => {

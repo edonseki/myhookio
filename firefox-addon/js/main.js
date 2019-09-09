@@ -17,7 +17,7 @@ $("#start_button").click(function(){
     const button = $(this);
     button.html("...");
     button.attr("disabled", true);
-    const checkUrl = 'http://myhook.io/url-check?url='+$("#host").val().trim();
+    const checkUrl = 'https://myhook.io/url-check?url='+$("#host").val().trim();
     $.ajax({
         url: checkUrl,
         method: 'GET',
