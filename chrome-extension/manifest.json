@@ -1,7 +1,7 @@
 {
     "manifest_version": 2,
     "name": "MyHook",
-    "description": "MyHook is an Tool which helps you exposing your local services for your clients, team mates and other development tools.",
+    "description": "MyHook is a Tool which helps you exposing your local services for your clients, team mates and other development tools.",
     "version": "1.0",
     "browser_action": {
         "default_icon": "image.png",
