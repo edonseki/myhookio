@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
+    "uglify-js": "^3.6.0",
     "uglifycss": "0.0.29"
   },
   "devDependencies": {},
