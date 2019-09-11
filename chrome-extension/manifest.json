@@ -1,7 +1,7 @@
 {
     "manifest_version": 2,
     "name": "MyHook",
-    "description": "MyHook allows you to expose your local webserver to public. It's very helpful to test API, Webhooks and other services.",
+    "description": "MyHook is an Development Tool which helps you exposing your local services for your clients, team mates and other development tools. Using MyHook you won't need to buy a public domain or server for testing or presentation purposes. MyHook will reserve a subdomain for you which will be publically accesible from every device connected in the Internet. In a simple workspace you will be able to monitor every request which comes from your public - to your localhook including all request and response details.",
     "version": "1.0",
     "browser_action": {
         "default_icon": "image.png",
