@@ -17,6 +17,13 @@ $("#start_button").click(function(){
     const button = $(this);
     button.html("...");
     button.attr("disabled", true);
+    browser.runtime.sendMessage({ function: "getData" }, (response) => {
+        if(typeof response !== 'undefined' &&
+            typeof response.publicSubdomain !== 'undefined' &&
+            response.publicSubdomain !== null){
+            window.close();
+        }
+    });
     const checkUrl = 'https://myhook.io/url-check?url='+$("#host").val().trim();
     $.ajax({
         url: checkUrl,
