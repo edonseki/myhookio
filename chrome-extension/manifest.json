@@ -11,7 +11,7 @@
         "scripts" : ["js/jquery.js", "js/socket.io.js", "js/logic.js","js/background.js"]
     },
     "permissions": [
-        "tabs",
+        "activeTab",
         "https://*/",
         "http://*/"
     ]
