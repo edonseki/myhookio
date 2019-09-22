@@ -21,7 +21,13 @@ const connectionErrorCallback = () => {
 const startConnection = (listeningHost, listeningPort, sendResponse) => {
     if (socket == null || !started) {
         try {
-            socket = io.connect(wssUrl, { upgrade: false, transports: ['websocket'] });
+            socket = io.connect(wssUrl, {
+                upgrade: false, transports: ['websocket'],
+                reconnection: true,
+                reconnectionDelay: 2000,                  //starts with 2 secs delay, then 4, 6, 8, until 60 where it stays forever until it reconnects
+                reconnectionDelayMax : 86400000,             //24 hours maximum delay between connections
+                timeout : 10000,
+            });
             socket.on("disconnect", connectionErrorCallback);
             socket.on("connect_failed", connectionErrorCallback);
             socket.on("connect_error", connectionErrorCallback);
