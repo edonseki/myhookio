@@ -85,13 +85,31 @@ const generateRandomString = (length) => {
     return text;
 };
 
+const allowedExt = [
+    '.js',
+    '.ico',
+    '.css',
+    '.png',
+    '.jpg',
+    '.woff2',
+    '.woff',
+    '.ttf',
+    '.svg',
+];
+
 //handle main point
 app.get('/', (req, res) => {
     const domainParts = req.headers.host.split('.');
     if (domainParts.length >= 3 && domainParts[0] !== 'www') {
         clientRequestHandler(req, res);
     }else{
-        res.render('index');
+        if (allowedExt.filter(ext => req.url.indexOf(ext) > 0).length > 0) {
+            const safeSuffix = 'public/' + path.normalize(req.url).replace(/^(\.\.(\/|\\|$))+/, '');
+
+            res.sendFile(path.join(__dirname, safeSuffix));
+        } else {
+            res.sendFile(path.join(__dirname,'public/index.html'));
+        }
     }
 })
 

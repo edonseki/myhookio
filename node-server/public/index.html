@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>MyHook - Tunnels to your localhost</title>
+    <!-- Plugins CSS -->
+    <link
+            rel="stylesheet"
+            href="./plugins/bootstrap-4.3.1/css/bootstrap.min.css"
+    />
+    <link rel="stylesheet" href="./plugins/meanmenu/meanmenu.css">
+
+    <!-- fonts -->
+    <link rel="stylesheet" href="./fonts/ep-icon-fonts/css/ep-font.css" />
+    <link rel="stylesheet" href="./fonts/fontawesome-5/css/all.min.css" />
+    <!-- Custom Stylesheet -->
+    <link rel="stylesheet" href="./css/settings.css" />
+    <link rel="stylesheet" href="./css/style.css" />
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-147779240-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'UA-147779240-1');
+    </script>
+
+</head>
+<body>
+<div class="site-wrapper">
+    <!-- Site Header -->
+    <header class="site-header">
+        <div class="container">
+            <div class="row justify-content-center align-items-center position-relative">
+                <div class="col-sm-3 col-6 col-lg-2 col-xl-2 order-lg-1">
+                    <div class="brand">
+                        <a href=""><img src="image/main-logo.png" alt="" /></a>
+                    </div>
+                </div>
+
+                <div class="col-sm-7 col-lg-2 col-xl-2 order-lg-3 d-none d-sm-block">
+                    <div class="header-btns">
+                        <div class="btn-2" style="background: transparent;">
+                            <form id="paypal" style="position: absolute;" action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
+                                <input type="hidden" name="cmd" value="_s-xclick">
+                                <input type="hidden" name="hosted_button_id" value="5LUQCZ6XQBXR4">
+                                <input style="width: 100px" type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif" border="0" name="submit" title="PayPal - The safer, easier way to pay online!" alt="Donate with PayPal button">
+                                <img alt="" border="0" src="https://www.paypal.com/en_RS/i/scr/pixel.gif" width="1" height="1">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-2 col-6 col-lg-7 offset-lg-1 col-xl-6 offset-xl-2 order-lg-2 position-static">
+                    <div class="main-navigation">
+                        <ul class="main-menu">
+                            <li class="menu-item"><a href="#how-it-works">How it works</a></li>
+
+                            <li class="menu-item "><a href="#features">Features</a></li>
+
+                            <li class="menu-item"><a href="#contact">Contact</a></li>
+                        </ul>
+                    </div>
+                    <div class="mobile-menu"></div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero-Area starts -->
+
+    <section class="hero-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 col-md-6 col-xl-5 order-2 order-md-1">
+                    <div class="hero-content">
+                        <h2>Focus on your product</h2>
+                        <p>
+                            Don't spent money on servers, domains during the period you're creating. Use MyHook for your testing and presentation purposes. Single click, and your local services will be accesible in the internet.
+                        </p>
+                        <div class="hero-btn">
+                            <a href="https://chrome.google.com/webstore/detail/myhook/ldhjhlbigofnnldbaicjiajphfmgbeba" target="_blank" class="btn btn-hero">Add to Chrome</a>
+                            <a href="https://addons.mozilla.org/en-US/firefox/addon/myhook/" target="_blank" class="btn btn-hero">Add to Firefox</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6 col-md-6 col-xl-7 order-1 order-md-2">
+                    <div class="hero-image shape">
+                        <img src="image/hero-img.png" alt="" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Clients starts -->
+
+    <!-- <section class="client-section">
+       <div class="container">
+         <div class="client-title">
+           <h2>The #1 Landing Page Platform for 15,000+ Brands</h2>
+         </div>
+         <div class="client-brand-wrapper">
+           <div class="single-brand">
+             <img src="image/logo-5.png" alt="" />
+           </div>
+
+           <div class="single-brand">
+             <img src="image/logo-4.png" alt="" />
+           </div>
+
+           <div class="single-brand">
+             <img src="image/logo-3.png" alt="" />
+           </div>
+
+           <div class="single-brand">
+             <img src="image/logo-2.png" alt="" />
+           </div>
+
+           <div class="single-brand">
+             <img src="image/logo-1.png" alt="" />
+           </div>
+         </div>
+       </div>
+     </section>-->
+
+    <!-- About starts -->
+
+    <section class="about-section-01">
+        <div class="container">
+            <div class="about-shape shape">
+                <img src="image/about-left-shape.svg" alt="" />
+            </div>
+            <div class="row">
+                <div class="col-lg-6 col-md-6 col-xl-5 order-2 order-md-1">
+                    <div class="about-left-content">
+                        <h2>It's FREE</h2>
+                        <p>
+                            MyHook doesn't require any payment to being used. We have to pay for the infrastructure, devs, bug fixing etc. In case you want to help MyHook become bigger for the community then you're very welcome to help!
+                        </p>
+                        <div class="about-btn">
+                            <a href="#" onclick="document.getElementById('paypal').submit()"
+                            >DONATE <i class="icon icon-minimal-right"></i
+                            ></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div
+                        class="col-lg-6 col-md-6 col-xl-6 offset-xl-1 order-1 order-md-2"
+                >
+                    <div class="about-image">
+                        <img src="image/about.png" alt="" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="feature-section" id="how-it-works">
+        <div class="container position-relative">
+            <!-- <div class="shape feature-shape">
+              <img src="./image/feature-bg-2.svg" alt="" />
+            </div> -->
+
+            <h2 style="font-family: 'Rubik', sans-serif; color: #9d7676">How it works???</h2><br>
+            <div class="row mb-d-30 shape-bg">
+                <div class="shape-half test1"></div>
+                <div class="shape-half test2"></div>
+                <div class="col-md-6 col-lg-5 offset-lg-1 col-xl-5 offset-xl-1 mb--30">
+                    <div class="feature-widget">
+                        <div class="widget-icon">
+                            <i class="icon" style="font-family: 'Rubik', sans-serif">1</i>
+                        </div>
+                        <div class="content">
+                            <h5>Install the Chrome Extension OR Firefox Addon</h5>
+                            <p>
+                                MyHook is a browser extension which should be installed from the official store. From the browser store (Chrom or Firefox store) click the install button and the extension will appear in your toolbar.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-5 col-xl-5 mb--30">
+                    <div class="feature-widget">
+                        <div class="widget-icon">
+                            <i class="icon" style="font-family: 'Rubik', sans-serif">2</i>
+                        </div>
+                        <div class="content">
+                            <h5>Check if your local API, WebServer is running</h5>
+                            <p>
+                                To be sure that MyHook will do their Job, be sure that your local service you want to expose is running.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-5 offset-lg-1 col-xl-5 offset-xl-1 mb--30">
+                    <div class="feature-widget">
+                        <div class="widget-icon">
+                            <i class="icon" style="font-family: 'Rubik', sans-serif">3</i>
+                        </div>
+                        <div class="content">
+                            <h5>Set-up your public and local hook</h5>
+                            <p>
+                                Open MyHook from your browser toolbar. A new window with the setup fields will appear. You will be asked to define the host of your local service (API, WebServer) and the port where the service is running. Usually the services run on the host 'localhost'. Populate the two required fields and click the 'START' button.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-5 col-xl-5 mb--30">
+                    <div class="feature-widget">
+                        <div class="widget-icon">
+                            <i class="icon" style="font-family: 'Rubik', sans-serif">4</i>
+                        </div>
+                        <div class="content">
+                            <h5>Manage your public hook from the workspace</h5>
+                            <p>
+                                After step 3 a new window (MyHook Workspace) will appear. In the top left you would be able to copy your public hook. What is public hook? Public hook is the subdomain reserved for your localhook. You have to share the public hook (Ex. https://dfewwds.myhook.io), set it up to another service in case to receive all the public requests to your localhost.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Feature starts -->
+
+    <section class="feature-section" id="features">
+        <div class="container position-relative">
+            <!-- <div class="shape feature-shape">
+              <img src="./image/feature-bg-2.svg" alt="" />
+            </div> -->
+            <h2 style="font-family: 'Rubik', sans-serif; color: #9d7676">Features!</h2><br>
+            <div class="row mb-d-30 shape-bg">
+                <div class="shape-half test1"></div>
+                <div class="shape-half test2"></div>
+                <div class="col-md-6 col-lg-5 offset-lg-1 col-xl-5 offset-xl-1 mb--30">
+                    <div class="feature-widget">
+                        <div class="widget-icon">
+                            <i class="icon icon-edit-72"></i>
+                        </div>
+                        <div class="content">
+                            <h5>Easy to Use</h5>
+                            <p>
+                                MyHook is very simple to use. You install the extension, start the hook and track the requests which are comming from outside.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-5 col-xl-5 mb--30">
+                    <div class="feature-widget">
+                        <div class="widget-icon">
+                            <i class="icon icon-layers-3"></i>
+                        </div>
+                        <div class="content">
+                            <h5>Simple Workspace</h5>
+                            <p>
+                                MyHook provides a simple workspace where all the requests and responses are listed. You will be able to check the headers, content, IP from the request and the response.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-5 offset-lg-1 col-xl-5 offset-xl-1 mb--30">
+                    <div class="feature-widget">
+                        <div class="widget-icon">
+                            <i class="icon icon-tablet-mobile"></i>
+                        </div>
+                        <div class="content">
+                            <h5>Free HTTPS for your public hook</h5>
+                            <p>
+                                Your local service is not enforced to use https but the public hook will have always an secure connection with the client user.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-5 col-xl-5 mb--30">
+                    <div class="feature-widget">
+                        <div class="widget-icon">
+                            <i class="icon icon-book-open-2"></i>
+                        </div>
+                        <div class="content">
+                            <h5>URL Adapt</h5>
+                            <p>
+                                MyHook will adapt all your local links in your website with the public one (Ex. http://localhost/images/logo.png -> https://3d23jds.myhook.io/images/logo.png).
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA starts -->
+    <!--<div class="cta-section" id="contact">
+      <div class="container cta-shapes-wrapper">
+        <div class="shape cta-shapes">
+          <img src="./image/cta-bg.svg" alt="" />
+          <div class="shape-inner-1">
+            <img src="./image/cta-shape1.svg" alt="" />
+          </div>
+          <div class="shape-inner-2">
+            <img src="./image/cta-shape2.svg" alt="" />
+          </div>
+        </div>
+        <div class="cta-content-wrapper">
+          <h2>Ready to get started?</h2>
+          <a href="" class="btn cta-btn">Get started now</a>
+        </div>
+      </div>
+    </div>-->
+
+    <!-- Footer Section -->
+    <div class="footer-section" id="contact">
+        <div class="container margin-decrese">
+            <div class="row">
+
+                <div class="col-lg-5 offset-xl-1 col-margin">
+                    <div class="footer-newsletter-box">
+                        <span class="footer-title-sm">Subscribe to our newsletter</span>
+                        <p>
+                            Subscribe to get lastest news for MyHook. No spam in your inbox.
+                        </p>
+                        <form action="https://gmail.us20.list-manage.com/subscribe/post?u=8f89e78649bba037ccd0c7026&amp;id=2414fee9e7" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+                            <div class="form-group">
+                                <input
+                                        value="" name="EMAIL" class="required email form-control" id="mce-EMAIL"
+                                        placeholder="Enter your email address"
+                                />
+                                <button class="submit-btn" type="submit" name="subscribe" id="mc-embedded-subscribe" >
+                                    <i class="icon icon-tail-right"></i>
+                                </button>
+                            </div>
+                            <div id="mce-responses" class="clear">
+                                <div class="response" id="mce-error-response" style="display:none"></div>
+                                <div class="response" id="mce-success-response" style="display:none"></div>
+                            </div>    <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
+                            <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_8f89e78649bba037ccd0c7026_2414fee9e7" tabindex="-1" value=""></div>
+                            <div class="clear"></div>
+                    </div>
+                    </form>
+                </div>
+                <a href="mailto:edonseki@gmail.com">Contact via E-Mail</a> &nbsp;|&nbsp; <a href="https://twitter.com/SekiraqaEdon">Twitter</a> &nbsp;|&nbsp; <a href="https://www.facebook.com/edonseki">Facebook</a> &nbsp;|&nbsp; <a href="https://www.instagram.com/edon_sekiraqa/">Instagram</a>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<script type='text/javascript' src='//s3.amazonaws.com/downloads.mailchimp.com/js/mc-validate.js'></script><script type='text/javascript'>(function($) {window.fnames = new Array(); window.ftypes = new Array();fnames[0]='EMAIL';ftypes[0]='email';fnames[1]='FNAME';ftypes[1]='text';fnames[2]='LNAME';ftypes[2]='text';fnames[3]='ADDRESS';ftypes[3]='address';fnames[4]='PHONE';ftypes[4]='phone';fnames[5]='BIRTHDAY';ftypes[5]='birthday';}(jQuery));var $mcj = jQuery.noConflict(true);</script>
+<!--End mc_embed_signup-->
+</body>
+</html>

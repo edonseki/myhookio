@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1183px" height="556px" viewBox="0 0 1183 556" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52.6 (67491) - http://www.bohemiancoding.com/sketch -->
+    <title>Rectangle</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <path d="M62.0041218,116 L1120.13094,116 C1154.37259,116 1182.13094,143.758346 1182.13094,178 C1182.13094,179.432708 1182.08128,180.864985 1181.98205,182.294252 L1152.04826,613.437473 C1149.73958,646.689925 1121.55268,672.166128 1088.23685,671.112223 L97.1960703,639.761898 C65.9420276,638.773216 40.3157543,614.665288 37.4223683,583.529762 L0.270108659,183.736866 C-2.89827468,149.642112 22.1725023,119.43437 56.2672562,116.265987 C58.1744096,116.088757 60.0887513,116 62.0041218,116 Z" id="path-1"></path>
+    </defs>
+    <g id="Pages" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="01-SaaS-Subscription" transform="translate(-367.000000, -2556.000000)">
+            <g id="Feature" transform="translate(367.000000, 2440.000000)">
+                <g id="Group-8">
+                    <mask id="mask-2" fill="white">
+                        <use xlink:href="#path-1"></use>
+                    </mask>
+                    <use id="Rectangle" fill="#0C39F8" xlink:href="#path-1"></use>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

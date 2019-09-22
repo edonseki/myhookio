@@ -1,0 +1,15 @@
+.btn--toggle-02 {
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+  height: 100%;
+}
+
+.btn--toggle-02 p {
+  color: #000;
+}
+
+.btn--toggle-02 p:last-child {
+  padding-right: 0;
+}
+/*# sourceMappingURL=custom.css.map */

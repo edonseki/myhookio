@@ -21,7 +21,7 @@ const connectionErrorCallback = () => {
 const startConnection = (listeningHost, listeningPort, sendResponse) => {
     if (socket == null || !started) {
         try {
-            socket = io.connect(wssUrl);
+            socket = io.connect(wssUrl, { upgrade: false, transports: ['websocket'] });
             socket.on("disconnect", connectionErrorCallback);
             socket.on("connect_failed", connectionErrorCallback);
             socket.on("connect_error", connectionErrorCallback);
