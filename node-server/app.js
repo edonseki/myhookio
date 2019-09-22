@@ -9,6 +9,7 @@ const path = require('path');
 const app = express();
 
 const socketClients = {};
+const socketSubdomainIds = {};
 const socketActivity = {};
 const responsesWaiting = {};
 
@@ -181,6 +182,7 @@ io.on('connection', (socket) => {
     }
 
     socketClients[subdomain] = socket;
+    socketSubdomainIds[socket.id] = subdomain;
     socketActivity[subdomain]= new Date().getTime();
     subdomain = 'https://'+subdomain+'.myhook.io/';
     console.log('New connection! Subdomain = '+subdomain);
@@ -215,6 +217,20 @@ io.on('connection', (socket) => {
         }
     };
 
+    socket.on('disconnect', (e,i) => {
+        if (typeof socketSubdomainIds[socket.id] !== 'undefined'){
+            if (typeof socketClients[socketSubdomainIds[socket.id]] !== 'undefined') {
+                const cSock = socketClients[socketSubdomainIds[socket.id]];
+                try{
+                    delete socketClients[socketSubdomainIds[socket.id]];
+                    delete socketSubdomainIds[socket.id];
+                    cSock.disconnect();
+                }catch (e) {
+
+                }
+            }
+        }
+    });
     socket.on('onResponse', responseHandler);
     socket.emit('onSubdomainPrepared', subdomain);
 });
