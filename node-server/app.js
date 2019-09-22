@@ -4,14 +4,26 @@ const ping = require('ping');
 const fs = require('fs');
 const http = require('http')
 const https = require('https')
+const path = require('path');
 
 const app = express();
-app.set('view engine', 'ejs');
-app.use(express.static('public'));
 
 const socketClients = {};
 const socketActivity = {};
 const responsesWaiting = {};
+
+
+const allowedExt = [
+    '.js',
+    '.ico',
+    '.css',
+    '.png',
+    '.jpg',
+    '.woff2',
+    '.woff',
+    '.ttf',
+    '.svg',
+];
 
 
 const clientRequestHandler = (req, res) => {
@@ -26,8 +38,14 @@ const clientRequestHandler = (req, res) => {
     }
 
     if (domainParts.length <= 2) {
-        res.statusCode = 404;
-        res.send('404 Not Found');
+        if (allowedExt.filter(ext => req.url.indexOf(ext) > 0).length > 0) {
+            const safeSuffix = 'public/' + path.normalize(req.url).replace(/^(\.\.(\/|\\|$))+/, '');
+            res.sendFile(path.join(__dirname, safeSuffix));
+        } else {
+            res.statusCode = 404;
+            res.send('404 Not Found');
+        }
+
         return;
     }
 
@@ -35,7 +53,7 @@ const clientRequestHandler = (req, res) => {
 
     if (typeof socketClients[subdomain] === 'undefined') {
         res.statusCode = 404;
-        res.send('404 Not Found'); 
+        res.send('404 Not Found');
         return;
     }
 
@@ -80,22 +98,10 @@ const generateRandomString = (length) => {
     let possible = "abcdefghijklmnopqrstuvwxyz0123456789";
 
     for (let i = 0; i < length; i++)
-      text += possible.charAt(Math.floor(Math.random() * possible.length));
+        text += possible.charAt(Math.floor(Math.random() * possible.length));
 
     return text;
 };
-
-const allowedExt = [
-    '.js',
-    '.ico',
-    '.css',
-    '.png',
-    '.jpg',
-    '.woff2',
-    '.woff',
-    '.ttf',
-    '.svg',
-];
 
 //handle main point
 app.get('/', (req, res) => {
@@ -105,7 +111,6 @@ app.get('/', (req, res) => {
     }else{
         if (allowedExt.filter(ext => req.url.indexOf(ext) > 0).length > 0) {
             const safeSuffix = 'public/' + path.normalize(req.url).replace(/^(\.\.(\/|\\|$))+/, '');
-
             res.sendFile(path.join(__dirname, safeSuffix));
         } else {
             res.sendFile(path.join(__dirname,'public/index.html'));
@@ -162,6 +167,7 @@ http.createServer(function (req, res) {
 
 const server = https.createServer(serverOptions, app).listen(443);
 const io = require('socket.io')(server);
+io.set('transports', ['websocket']);
 console.log('Server started at: {host}');
 
 io.on('connection', (socket) => {
@@ -240,8 +246,8 @@ const checkSocketActivity = () => {
         if(minutes >= 14){
             const socket = socketClients[socketKey];
             socket.disconnect();
-            delete socketClients[socketKey]; 
-            delete socketActivity[socketKey]; 
+            delete socketClients[socketKey];
+            delete socketActivity[socketKey];
             console.log('Subdomain and socket suspended: '+socketKey);
         }
     }
