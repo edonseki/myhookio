@@ -205,13 +205,13 @@ io.on('connection', (socket) => {
                 waitingResponse.set(headerKey, response.headers[headerKey]);
             }
 
+            delete responsesWaiting[response.id];
+
             try {
                 waitingResponse.send(response.response_text);
             }catch(e){
                 console.log(e);
             }
-
-            delete responsesWaiting[response.id];
         }
     };
 
@@ -228,9 +228,9 @@ const checkPendingRequests = () => {
         if (typeof response !== 'undefined'){
             const time = parseInt((new Date().getTime() - response.time)/1000);
             if(time >= 30){
+                delete responsesWaiting[response.id];
                 response.statusCode = 503;
                 response.send('Timeout');
-                delete responsesWaiting[response.id];
             }
         }
     }
@@ -243,7 +243,7 @@ const checkSocketActivity = () => {
     for(let socketKey in socketActivity){
         const lastActivity = parseInt((new Date().getTime() - socketActivity[socketKey])/1000);
         const minutes = parseInt(lastActivity / 60);
-        if(minutes >= 14){
+        if(minutes >= 1440){
             const socket = socketClients[socketKey];
             socket.disconnect();
             delete socketClients[socketKey];
