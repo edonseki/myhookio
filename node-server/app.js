@@ -185,7 +185,7 @@ io.on('connection', (socket) => {
     socketSubdomainIds[socket.id] = subdomain;
     socketActivity[subdomain]= new Date().getTime();
     subdomain = 'https://'+subdomain+'.myhook.io/';
-    console.log('New connection! Subdomain = '+subdomain);
+    //console.log('New connection! Subdomain = '+subdomain);
 
     const responseHandler = (response) => {
         if (typeof responsesWaiting[response.id] !== 'undefined' ) {
@@ -231,6 +231,8 @@ io.on('connection', (socket) => {
             }
         }
     });
+    socket.on("connect_failed", (e) => {console.log(e)});
+    socket.on("connect_error", (e) => {console.log(e)});
     socket.on('onResponse', responseHandler);
     socket.emit('onSubdomainPrepared', subdomain);
 });
