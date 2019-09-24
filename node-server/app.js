@@ -5,6 +5,7 @@ const fs = require('fs');
 const http = require('http')
 const https = require('https')
 const path = require('path');
+const Cryptr = require('cryptr');
 
 const app = express();
 
@@ -12,6 +13,8 @@ const socketClients = {};
 const socketSubdomainIds = {};
 const socketActivity = {};
 const responsesWaiting = {};
+
+const SECRET_KEY = 'TotalSecretKey';
 
 
 const allowedExt = [
@@ -174,6 +177,19 @@ console.log('Server started at: {host}');
 io.on('connection', (socket) => {
     let subdomain = null;
 
+    if (socket.request.param('ss')){
+        const cryptr = new Cryptr(SECRET_KEY);
+        const decryptedSs = cryptr.decrypt(socket.request.param('ss'));
+        const dt = decryptedSs.split(";");
+
+        if (dt.length == 2){
+            subdomain = dt[0];
+            if (typeof socketClients[subdomain] !== 'undefined') {
+                subdomain = null;
+            }
+        }
+    }
+
     while (subdomain == null) {
         const tempSubdomain = generateRandomString(8);
         if (typeof socketClients[tempSubdomain] === 'undefined') {
@@ -235,6 +251,11 @@ io.on('connection', (socket) => {
     socket.on("connect_error", (e) => {console.log(e)});
     socket.on('onResponse', responseHandler);
     socket.emit('onSubdomainPrepared', subdomain);
+    setTimeout(function () {
+        const cryptr = new Cryptr(SECRET_KEY);
+        const subdomainSs = cryptr.encrypt((subdomain+";"+new Date().getTime()));
+        socket.emit('onSsPrepared', subdomainSs);
+    },1500);
 });
 
 

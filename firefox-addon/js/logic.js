@@ -41,6 +41,9 @@ const startConnection = (listeningHost, listeningPort, sendResponse) => {
                     });
                 }
             });
+            socket.on('onSsPrepared', (ss) => {
+                socket.io.opts.query = 'ss=' + ss;
+            });
             socket.on('onRequest', handleRequest);
             const port = listeningPort == '80' ? '' : ':'+listeningPort;
             listeningUrl = 'http://'+listeningHost+port;

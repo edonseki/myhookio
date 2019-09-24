@@ -33,6 +33,7 @@ const startConnection = (listeningHost, listeningPort, sendResponse) => {
             socket.on("connect_failed", connectionErrorCallback);
             socket.on("connect_error", connectionErrorCallback);
             socket.on('onSubdomainPrepared', (subdomain) => {
+                socket.io.opts.query = 'ss=' + data.socket_auth_token;
                 started = true;
                 publicSubdomain = subdomain;
                 startedAt = new Date();
@@ -41,6 +42,9 @@ const startConnection = (listeningHost, listeningPort, sendResponse) => {
                         code: 200
                     });
                 }
+            });
+            socket.on('onSsPrepared', (ss) => {
+                socket.io.opts.query = 'ss=' + ss;
             });
             socket.on('onRequest', handleRequest);
             const port = listeningPort == '80' ? '' : ':'+listeningPort;
