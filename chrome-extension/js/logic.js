@@ -33,7 +33,6 @@ const startConnection = (listeningHost, listeningPort, sendResponse) => {
             socket.on("connect_failed", connectionErrorCallback);
             socket.on("connect_error", connectionErrorCallback);
             socket.on('onSubdomainPrepared', (subdomain) => {
-                socket.io.opts.query = 'ss=' + data.socket_auth_token;
                 started = true;
                 publicSubdomain = subdomain;
                 startedAt = new Date();

@@ -177,9 +177,9 @@ console.log('Server started at: {host}');
 io.on('connection', (socket) => {
     let subdomain = null;
 
-    if (socket.request.param('ss')){
+    if (typeof socket.handshake.query.ss !== 'undefined'){
         const cryptr = new Cryptr(SECRET_KEY);
-        const decryptedSs = cryptr.decrypt(socket.request.param('ss'));
+        const decryptedSs = cryptr.decrypt(socket.handshake.query.ss);
         const dt = decryptedSs.split(";");
 
         if (dt.length == 2){
@@ -200,6 +200,7 @@ io.on('connection', (socket) => {
     socketClients[subdomain] = socket;
     socketSubdomainIds[socket.id] = subdomain;
     socketActivity[subdomain]= new Date().getTime();
+    const subdomainSlug = subdomain;
     subdomain = 'https://'+subdomain+'.myhook.io/';
     //console.log('New connection! Subdomain = '+subdomain);
 
@@ -253,7 +254,7 @@ io.on('connection', (socket) => {
     socket.emit('onSubdomainPrepared', subdomain);
     setTimeout(function () {
         const cryptr = new Cryptr(SECRET_KEY);
-        const subdomainSs = cryptr.encrypt((subdomain+";"+new Date().getTime()));
+        const subdomainSs = cryptr.encrypt((subdomainSlug+";"+new Date().getTime()));
         socket.emit('onSsPrepared', subdomainSs);
     },1500);
 });
