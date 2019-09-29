@@ -70,7 +70,7 @@ const clientRequestHandler = (req, res) => {
     });
 
     req.on('end', () => {
-        const headersToDelete = ['host', 'connection', 'accept-encoding', 'user-agent', 'referer'];
+        const headersToDelete = ['host', 'connection', 'accept-encoding', 'user-agent', 'referer','sec-fetch-mode','sec-fetch-site', 'origin','sec-fetch-user', 'cookie'];
 
         const request = {
             id              : subdomain+'-'+uuid.v4(),
@@ -227,7 +227,11 @@ io.on('connection', (socket) => {
             delete responsesWaiting[response.id];
 
             try {
-                waitingResponse.send(response.response_text);
+                if (response.binary_data != null) {
+                    waitingResponse.send(response.binary_data);
+                }else {
+                    waitingResponse.send(response.response_text);
+                }
             }catch(e){
                 console.log(e);
             }
