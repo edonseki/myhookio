@@ -3,7 +3,7 @@ const url = require('url');
 const path = require('path');
 const config = require('./package');
 const https = require('https');
-const opn = require('opn');
+const open = require('open');
 
 const {app, BrowserWindow, Menu, dialog} = electron;
 
@@ -87,9 +87,9 @@ const checkForUpdate = () => {
                         buttons: ["Yes","No"],
                         message: "New version "+response.newVersion+" available. Do you want to download the new version?"
                     }
-                    const resp = dialog.showMessageBox(options);
+                    const resp = dialog.showMessageBoxSync(options);
                     if(resp === 0){
-                        opn(response.updateUrl);
+                        open(response.updateUrl);
                     }
                 }
             }catch (e) {
