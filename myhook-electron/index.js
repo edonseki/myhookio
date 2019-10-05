@@ -5,7 +5,7 @@ const config = require('./package');
 const https = require('https');
 const opn = require('opn');
 
-const {app, BrowserWindow, Menu} = electron;
+const {app, BrowserWindow, Menu, dialog} = electron;
 
 const browser = {
     appOnMessageCallbacks : [],
@@ -83,7 +83,12 @@ const checkForUpdate = () => {
                     typeof response.updateUrl !== 'undefined' &&
                     typeof response.newVersion !== 'undefined' &&
                     response.hasUpdate === true){
-                    if(confirm("New version "+response.newVersion+" available. Do you want to download the new version?")){
+                    const options  = {
+                        buttons: ["Yes","No"],
+                        message: "New version "+response.newVersion+" available. Do you want to download the new version?"
+                    }
+                    const resp = dialog.showMessageBox(options);
+                    if(resp === 0){
                         opn(response.updateUrl);
                     }
                 }

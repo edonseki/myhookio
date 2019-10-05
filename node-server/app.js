@@ -127,11 +127,14 @@ app.get('/version-check', (req, res) => {
         try{
             const versionDetails = JSON.parse(fs.readFileSync('version_details.txt', 'utf8'));
             if (versionDetails.version !== req.query.v){
-                res.send({
+                const result = {
                     hasUpdate : true,
                     updateUrl : versionDetails.updateUrl,
                     newVersion: versionDetails.version
-                });
+                };
+                res.send(result);
+            }else{
+                res.send({hasUpdate : false});
             }
         }catch (e) {
             res.send({hasUpdate : false});
