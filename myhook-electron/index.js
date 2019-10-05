@@ -1,6 +1,9 @@
 const electron = require('electron');
 const url = require('url');
 const path = require('path');
+const config = require('./package');
+const https = require('https');
+const opn = require('opn');
 
 const {app, BrowserWindow, Menu} = electron;
 
@@ -62,18 +65,39 @@ const browser = {
                 }
             ));
 
-            mainWindow.webContents.openDevTools();
             mainWindow.webContents.on('did-finish-load', function() {
                 Menu.setApplicationMenu(null);
                 mainWindow.show();
             });
         },
     }
-}
+};
+
+const checkForUpdate = () => {
+    const checkUrl = 'https://myhook.io/version-check?v='+config.version;
+    https.get(checkUrl, (res) => {
+        res.on('data', (d) => {
+            try{
+                const response = JSON.parse(d.toString());
+                if(typeof response.hasUpdate !== 'undefined' &&
+                    typeof response.updateUrl !== 'undefined' &&
+                    typeof response.newVersion !== 'undefined' &&
+                    response.hasUpdate === true){
+                    if(confirm("New version "+response.newVersion+" available. Do you want to download the new version?")){
+                        opn(response.updateUrl);
+                    }
+                }
+            }catch (e) {
+
+            }
+        });
+    }).on('error', ()=>{});
+};
 
 global.browser = browser;
 
 app.on('ready', ()=>{
+    checkForUpdate();
     const mainWindow = new BrowserWindow({
         width : 490,
         height : 712,

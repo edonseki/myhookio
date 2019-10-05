@@ -143,7 +143,8 @@ const handleBinaryRequest = (request) => {
     });
 
     req.on('error', (error, r,e) => {
-        console.error(error)
+        res.responseText = error;
+        emitResponseToSocket(request.id, res);
     });
 
     req.write(request.body || '');
@@ -199,7 +200,8 @@ const handleRequest = (request) => {
     });
 
     req.on('error', (error, r,e) => {
-        console.error(error)
+        res.responseText = error;
+        emitResponseToSocket(request.id, res);
     });
 
     req.write(request.body || '');
