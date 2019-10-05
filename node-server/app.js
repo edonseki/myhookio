@@ -122,6 +122,25 @@ app.get('/', (req, res) => {
     }
 })
 
+app.get('/version-check', (req, res) => {
+    if (typeof req.query.v !== 'undefined'){
+        try{
+            const versionDetails = JSON.parse(fs.readFileSync('version_details.txt', 'utf8'));
+            if (versionDetails.version !== req.query.v){
+                res.send({
+                    hasUpdate : true,
+                    updateUrl : versionDetails.updateUrl,
+                    newVersion: versionDetails.version
+                });
+            }
+        }catch (e) {
+            res.send({hasUpdate : false});
+        }
+    }else{
+        res.send({hasUpdate : false});
+    }
+});
+
 app.get('/url-check', (req, res) => {
     if (typeof req.query.url === 'undefined'){
         res.send({alive: true});
@@ -142,7 +161,7 @@ app.get('/url-check', (req, res) => {
     ping.sys.probe(req.query.url , function(isAlive){
         res.send({alive: isAlive});
     }, cfg);
-})
+});
 
 app.get('/eki-stats', (req, res) => {
     const stats = {
