@@ -1,0 +1,50 @@
+{
+  "name": "MyHook",
+  "version": "1.0.3",
+  "description": "MyHook is a Tool which helps you exposing your local services for your clients, team mates and other development tools.",
+  "author": "Edon Sekiraqa <edonseki@gmail.com>",
+  "main": "index.js",
+  "scripts": {
+    "postinstall": "install-app-deps",
+    "start": "electron .",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder",
+    "dist-unsigned" : "CSC_IDENTITY_AUTO_DISCOVERY=false electron-builder"
+  },
+  "build": {
+    "appId": "io.myhook.MyHook",
+    "dmg": {
+      "icon" : "./assets/icon.icns",
+      "contents": [
+        {
+          "x": 110,
+          "y": 150
+        },
+        {
+          "x": 240,
+          "y": 150,
+          "type": "link",
+          "path": "/Applications"
+        }
+      ]
+    },
+    "linux": {
+      "target": [
+        "AppImage",
+        "deb"
+      ]
+    },
+    "win": {
+      "target": "portable",
+      "icon": "assets/icon.ico"
+    }
+  },
+  "license": "ISC",
+  "devDependencies": {
+    "electron-builder": "^21.2.0",
+    "electron": "^6.0.10"
+  },
+  "dependencies": {
+    "socket.io-client": "^2.3.0"
+  }
+}
