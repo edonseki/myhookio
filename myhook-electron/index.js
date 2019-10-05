@@ -2,7 +2,7 @@ const electron = require('electron');
 const url = require('url');
 const path = require('path');
 
-const {app, BrowserWindow} = electron;
+const {app, BrowserWindow, Menu} = electron;
 
 const browser = {
     appOnMessageCallbacks : [],
@@ -62,7 +62,9 @@ const browser = {
                 }
             ));
 
+            mainWindow.webContents.openDevTools();
             mainWindow.webContents.on('did-finish-load', function() {
+                Menu.setApplicationMenu(null);
                 mainWindow.show();
             });
         },
@@ -78,9 +80,11 @@ app.on('ready', ()=>{
         webPreferences: {
             nodeIntegration: true
         },
+        title: "MyHook",
         show: false,
         icon: path.join(__dirname, 'assets/icons/png/64x64.png')
     });
+
 
     global.screenWidth = electron.screen.getPrimaryDisplay().size.width;
     global.screenHeight = electron.screen.getPrimaryDisplay().size.height;
@@ -96,6 +100,7 @@ app.on('ready', ()=>{
     ));
 
     mainWindow.webContents.on('did-finish-load', function() {
+        Menu.setApplicationMenu(null);
         mainWindow.show();
     });
 });

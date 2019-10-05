@@ -3,30 +3,21 @@
   "version": "1.0.3",
   "description": "MyHook is a Tool which helps you exposing your local services for your clients, team mates and other development tools.",
   "author": "Edon Sekiraqa <edonseki@gmail.com>",
+  "productName" : "MyHook",
   "main": "index.js",
   "scripts": {
     "postinstall": "install-app-deps",
     "start": "electron .",
     "pack": "electron-builder --dir",
     "dist": "electron-builder",
-    "dist-unsigned" : "CSC_IDENTITY_AUTO_DISCOVERY=false electron-builder"
+    "dist-unsigned" : "CSC_IDENTITY_AUTO_DISCOVERY=false electron-builder -mwl"
   },
   "build": {
     "appId": "io.myhook.MyHook",
-    "dmg": {
+    "mac": {
       "icon" : "./assets/icon.icns",
-      "contents": [
-        {
-          "x": 110,
-          "y": 150
-        },
-        {
-          "x": 240,
-          "y": 150,
-          "type": "link",
-          "path": "/Applications"
-        }
-      ]
+      "target" : "dmg",
+      "identity" : "io.myhook.MyHook"
     },
     "linux": {
       "target": [
@@ -35,7 +26,7 @@
       ]
     },
     "win": {
-      "target": "portable",
+      "target": "nsis",
       "icon": "assets/icon.ico"
     }
   },
