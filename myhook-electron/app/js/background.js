@@ -56,7 +56,7 @@ function functionCallHandler (request, sender, sendResponse){
             sendResponse(logic.getConnectionDetails());
             break;
         case 'requestDetails':
-            sendResponse(logic.requestHistory[request.request_id]);
+            sendResponse(logic.getRequestHistory(request.request_id));
             break;
         case 'clearRequestHistory':
             logic.clearRequestHistory(request, sendResponse);

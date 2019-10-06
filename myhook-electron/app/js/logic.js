@@ -107,16 +107,16 @@ const emitResponseToSocket = (requestId, response) => {
     responseBody.duration = duration;
     browser.runtime.sendMessage({body: responseBody, type: 'response'});
 
+    socket.emit('onResponse', responseBody);
+
+
     //append response to request
     requestHistory[requestId].response = responseBody;
-
-    socket.emit('onResponse', responseBody);
 };
 
 const handleBinaryRequest = (request) => {
     const url = listeningUrl + request.path;
     request.local_date = new Date();
-    requestHistory[request.id] = request;
 
     const http = require('http');
 
@@ -143,8 +143,7 @@ const handleBinaryRequest = (request) => {
     });
 
     req.on('error', (error, r,e) => {
-        res.responseText = error;
-        emitResponseToSocket(request.id, res);
+        console.log(error);
     });
 
     req.write(request.body || '');
@@ -155,6 +154,7 @@ const handleRequest = (request) => {
     const url = listeningUrl + request.path;
     request.local_date = new Date();
     browser.runtime.sendMessage({body: request, type: 'request'});
+    request.response = {};
     requestHistory[request.id] = request;
 
     const http = require('http');
@@ -184,12 +184,8 @@ const handleRequest = (request) => {
             data += chunk;
         });
         res.on('end', () => {
-            if(options.path.indexOf('login')!==-1){
-                console.log(options);
-               // console.log(data);
-            }
             if(typeof data !== 'undefined' &&
-                /\ufffd/.test(data ) === true){
+                /\ufffd/.test(data) === true){
                 //is binary
                 handleBinaryRequest(request);
             }else{
@@ -200,31 +196,19 @@ const handleRequest = (request) => {
     });
 
     req.on('error', (error, r,e) => {
-        res.responseText = error;
-        emitResponseToSocket(request.id, res);
+        console.log(error);
     });
 
     req.write(request.body || '');
     req.end();
+};
 
-    /*$.ajax({
-        url: url,
-        headers: request.headers,
-        method: request.method,
-        data: request.body,
-        success: (a1,status,response) => {
-            if(typeof response.responseText !== 'undefined' &&
-                /\ufffd/.test(response.responseText ) === true){
-                //is binary
-                handleBinaryRequest(request);
-            }else{
-                emitResponseToSocket(request.id, response);
-            }
-        },
-        error: (response, status, error) => {
-            emitResponseToSocket(request.id, response);
-        }
-    });*/
+const getRequestHistory = (id) => {
+    return requestHistory[id];
+};
+
+const setRequestHistory = (reqId, data) => {
+    requestHistory[reqId] = data;
 };
 
 const clearRequestHistory = (request, sendResponseCallback) => {
@@ -238,5 +222,6 @@ module.exports = {
     stopConnection : stopConnection,
     terminateTheExtension : terminateTheExtension,
     clearRequestHistory : clearRequestHistory,
-    requestHistory : requestHistory
+    getRequestHistory : getRequestHistory,
+    setRequestHistory : setRequestHistory
 };

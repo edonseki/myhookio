@@ -1,4 +1,4 @@
-const browser = require('electron').remote.getGlobal('browser');
+let browser = require('electron').remote.getGlobal('browser');
 
 const itemTemplate = '<tr class="request_row" row_id="{{request_id}}">\n' +
                         '<td style="width: 42px;">{{request_time}}</td>\n' +
@@ -133,7 +133,7 @@ const updateStats = () => {
 
 const handleConnectionStatus = (status) => {
     if (!status){
-        alert('Connection to MyHook is lost. The plugin will be closed.');
+        alert('Connection to MyHook is lost. The app will be closed.');
         window.close();
     }
 }
@@ -152,7 +152,7 @@ $(document).ready(() => {
 
     browser.app.sendMessage({ function: "getData" }, (response) => {
         if(typeof response.listeningUrl !== 'undefined' && response.listeningUrl == null){
-           alert('Seems the connection to MyHook is lost. The extension will be closed.');
+           alert('Seems the connection to MyHook is lost. The app will be closed.');
            window.close();
            return;
         }
@@ -179,7 +179,7 @@ const startTimer = () => {
 }
 
 $(".requests_table").delegate('tr', 'click', function() {
-    browser.app.sendMessage({ function: "requestDetails" , request_id : $(this).attr('row_id') }, (request) => {
+    browser.app.sendMessage({ function: "requestDetails" , request_id : $(this).attr('row_id') }, function (request)  {
         addRequestHeadersInView(request);
         addRequestBodyInView(request);
         
