@@ -66,6 +66,13 @@ const browser = {
             ));
 
             mainWindow.webContents.on('did-finish-load', function() {
+                const menu = Menu.buildFromTemplate([
+                    {
+                        label: 'Quit',
+                    }
+                ]);
+                Menu.setApplicationMenu(menu);
+                Menu.setApplicationMenu(null);
                 Menu.setApplicationMenu(null);
                 mainWindow.show();
             });
@@ -129,6 +136,13 @@ app.on('ready', ()=>{
     ));
 
     mainWindow.webContents.on('did-finish-load', function() {
+        const menu = Menu.buildFromTemplate([
+            {
+                label: 'Quit',
+                // Other code removed for brevity
+            }
+        ]);
+        Menu.setApplicationMenu(menu);
         Menu.setApplicationMenu(null);
         mainWindow.show();
     });
