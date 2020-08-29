@@ -2,8 +2,8 @@ const express = require('express' );
 const uuid = require('uuid');
 const ping = require('ping');
 const fs = require('fs');
-const http = require('http')
-const https = require('https')
+const http = require('http');
+const https = require('https');
 const path = require('path');
 const Cryptr = require('cryptr');
 
@@ -35,6 +35,7 @@ const clientRequestHandler = (req, res) => {
     const domainParts = req.headers.host.split('.');
 
     if (req.originalUrl.indexOf('.well-known') !== -1){
+        // used to verify let's encrypt ssl certs.
         res.statusCode = 200;
         const code = fs.readFileSync('wll.txt', 'utf8');
         res.send(code);
@@ -120,8 +121,9 @@ app.get('/', (req, res) => {
             res.sendFile(path.join(__dirname,'public/index.html'));
         }
     }
-})
+});
 
+//this endpoint is used from electron desktop apps in order to check if there is any update.
 app.get('/version-check', (req, res) => {
     if (typeof req.query.v !== 'undefined'){
         try{
@@ -144,6 +146,10 @@ app.get('/version-check', (req, res) => {
     }
 });
 
+/*
+    this endpoint checks if the local hook you've chosen is accessible from the internet. This is not a problem that
+    MyHook can't handle but the basic idea is to expose local servers and not playing a proxy role.
+ */
 app.get('/url-check', (req, res) => {
     if (typeof req.query.url === 'undefined'){
         res.send({alive: true});
@@ -166,7 +172,8 @@ app.get('/url-check', (req, res) => {
     }, cfg);
 });
 
-app.get('/eki-stats', (req, res) => {
+// this endpoint is used to fetch basic stats
+app.get('/myhook-stats', (req, res) => {
     const stats = {
         connections         : parseInt(Object.keys(socketClients).length),
         responses_waiting   : parseInt(Object.keys(responsesWaiting).length)
@@ -179,6 +186,7 @@ app.post('*', clientRequestHandler);
 app.put('*', clientRequestHandler);
 app.delete('*', clientRequestHandler);
 
+// ssl certs. Comment his part if you're running MyHook without SSL encryption.
 const serverOptions = {
     key: fs.readFileSync('/etc/letsencrypt/live/myhook.io/privkey.pem'),
     cert: fs.readFileSync('/etc/letsencrypt/live/myhook.io/fullchain.pem'),
@@ -269,7 +277,7 @@ io.on('connection', (socket) => {
                     delete socketSubdomainIds[socket.id];
                     cSock.disconnect();
                 }catch (e) {
-
+                    console.log(e);
                 }
             }
         }
@@ -287,7 +295,7 @@ io.on('connection', (socket) => {
 
 
 // jobs
-// -- response check
+// -- response check - if a request is waiting more thant 30 seconds for a response then MyHook will throw 503 error.
 const checkPendingRequests = () => {
     for(let requestKey in responsesWaiting){
         const response = responsesWaiting[requestKey].response;
@@ -304,7 +312,7 @@ const checkPendingRequests = () => {
 console.log('Starting response check job...');
 setInterval(checkPendingRequests, 1000);
 
-// -- socket activity check
+// -- socket activity check - if the socket has no activity then MyHook server will destroy the connection.
 const checkSocketActivity = () => {
     for(let socketKey in socketActivity){
         const lastActivity = parseInt((new Date().getTime() - socketActivity[socketKey])/1000);
