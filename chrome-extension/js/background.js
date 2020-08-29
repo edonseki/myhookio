@@ -64,4 +64,4 @@ const functionCallHandler = (request, sender, sendResponse) =>{
             clearRequestHistory(request, sendResponse);
             break;
     }
-}
+};

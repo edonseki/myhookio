@@ -6,7 +6,7 @@ const http = require('http');
 const https = require('https');
 const path = require('path');
 const Cryptr = require('cryptr');
-
+const npmConfig = require('./package');
 const app = express();
 
 const socketClients = {};
@@ -71,7 +71,11 @@ const clientRequestHandler = (req, res) => {
     });
 
     req.on('end', () => {
-        const headersToDelete = ['host', 'connection', 'accept-encoding', 'user-agent', 'referer','sec-fetch-mode','sec-fetch-site', 'origin','sec-fetch-user', 'cookie'];
+        const headersToDelete = [
+            'host', 'connection', 'accept-encoding', 'user-agent',
+            'referer','sec-fetch-mode','sec-fetch-site', 'origin',
+            'sec-fetch-user', 'cookie'
+        ];
 
         const request = {
             id              : subdomain+'-'+uuid.v4(),
@@ -167,7 +171,7 @@ app.get('/url-check', (req, res) => {
         extra: ["-i 2"],
     };
 
-    ping.sys.probe(req.query.url , function(isAlive){
+    ping.sys.probe(req.query.url , (isAlive) => {
         res.send({alive: isAlive});
     }, cfg);
 });
@@ -186,23 +190,32 @@ app.post('*', clientRequestHandler);
 app.put('*', clientRequestHandler);
 app.delete('*', clientRequestHandler);
 
-// ssl certs. Comment his part if you're running MyHook without SSL encryption.
-const serverOptions = {
-    key: fs.readFileSync('/etc/letsencrypt/live/myhook.io/privkey.pem'),
-    cert: fs.readFileSync('/etc/letsencrypt/live/myhook.io/fullchain.pem'),
-    ca: fs.readFileSync('/etc/letsencrypt/live/myhook.io/fullchain.pem')
-};
+let serverOptions = {};
 
-//redirect http to https
-http.createServer(function (req, res) {
-    res.writeHead(301, { "Location": "https://" + req.headers['host'] + req.url });
-    res.end();
-}).listen(80);
+// here we store the http/s server instance.
+let server = null;
 
-const server = https.createServer(serverOptions, app).listen(443);
+// ssl certs in case you want to encrypt your communication
+if (npmConfig.config.useSSL) {
+    serverOptions = {
+        key: fs.readFileSync(npmConfig.config.sslCerts.key),
+        cert: fs.readFileSync(npmConfig.config.sslCerts.cert),
+        ca: fs.readFileSync(npmConfig.config.sslCerts.ca)
+    };
+
+    //redirect http to https
+    http.createServer((req, res) => {
+        res.writeHead(301, { "Location": "https://" + req.headers['host'] + req.url });
+        res.end();
+    }).listen(npmConfig.config.httpPort);
+    server = https.createServer(serverOptions, app).listen(443);
+}else {
+    server = http.createServer(app).listen(npmConfig.config.httpPort);
+}
+
 const io = require('socket.io')(server);
 io.set('transports', ['websocket']);
-console.log('Server started at: {host}');
+console.log('Server started at: '+npmConfig.config.mainDomain+':'+npmConfig.config.httpPort);
 
 io.on('connection', (socket) => {
     let subdomain = null;
@@ -212,7 +225,7 @@ io.on('connection', (socket) => {
         const decryptedSs = cryptr.decrypt(socket.handshake.query.ss);
         const dt = decryptedSs.split(";");
 
-        if (dt.length == 2){
+        if (dt.length === 2){
             subdomain = dt[0];
             if (typeof socketClients[subdomain] !== 'undefined') {
                 subdomain = null;
@@ -221,7 +234,10 @@ io.on('connection', (socket) => {
     }
 
     while (subdomain == null) {
-        const tempSubdomain = generateRandomString(8);
+        let tempSubdomain = 'test';
+        if(!npmConfig.config.useTestSubdomain){
+            tempSubdomain = generateRandomString(8);
+        }
         if (typeof socketClients[tempSubdomain] === 'undefined') {
             subdomain = tempSubdomain;
         }
@@ -231,8 +247,7 @@ io.on('connection', (socket) => {
     socketSubdomainIds[socket.id] = subdomain;
     socketActivity[subdomain]= new Date().getTime();
     const subdomainSlug = subdomain;
-    subdomain = 'https://'+subdomain+'.myhook.io/';
-    //console.log('New connection! Subdomain = '+subdomain);
+    subdomain = 'https://'+subdomain+'.' + npmConfig.config.mainDomain + '/';
 
     const responseHandler = (response) => {
         if (typeof responsesWaiting[response.id] !== 'undefined' ) {

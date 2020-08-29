@@ -7,6 +7,17 @@
     "start": "nodemon app",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "config" : {
+    "mainDomain" : "myhook2.io",
+    "httpPort" : 80,
+    "useTestSubdomain" : true,
+    "useSSL" : false,
+    "sslCerts" : {
+      "key" : "-- the path of key -- example: '/etc/letsencrypt/live/myhook.io/privkey.pem'",
+      "cert" : "-- the path of cert -- example: '/etc/letsencrypt/live/myhook.io/fullchain.pem'",
+      "ca" : "-- the path of ca -- example: '/etc/letsencrypt/live/myhook.io/fullchain.pem'"
+    }
+  },
   "author": "Edon Sekiraqa",
   "license": "ISC",
   "dependencies": {
