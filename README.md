@@ -6,6 +6,8 @@ for you which will be publicly accessible from every device connected on the Int
 In a simple workspace, you will be able to monitor every request which comes from your public - to your local hook 
 including all request and response details. 
 
+Currently running on: https://myhook.io
+
 ## Prerequisites
 
 1. OS :P
