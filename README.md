@@ -6,6 +6,24 @@ for you which will be publicly accessible from every device connected on the Int
 In a simple workspace, you will be able to monitor every request which comes from your public - to your local hook 
 including all request and response details. 
 
+## Prerequisites
+
+1. OS :P
+2. Chrome or Firefox
+3. NodeJS 8 or 11 / both work
+
+## Project Structure
+
+`chrome-extension` - this contains the source code for the Chrome Extension.<br>
+`firefox-addon` - this contains the source code for Firefox Add On. The code here is 95.6%+ similar with the
+Chrome Extension.<br>
+`myhook-electron` - this contains the source code of Electron. The most of the source code here is the same as in
+the browser extensions. There is a custom mechanism built that allowed to use the same implementation as in the browser
+extensions.<br>
+`myhook-tester` - this is a simple JS Script that tries to test the limits of MyHook.<br>
+`node-server` - here is the place where a part of magic happen. This contains the source code of the server where all the 
+communication between the local services and public sub domain happens.
+
 ## Steps to run MyHook to your localhost
 
 In order to run MyHook to your local machine or deploy it to your public server you have to follow the steps below:

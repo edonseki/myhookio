@@ -13,8 +13,8 @@ function Client() {
 }
 
 method.isReady = function() {
-    return this.subdomain != undefined;
-}
+    return typeof  this.subdomain !== 'undefined';
+};
 
 method.connect = function() {
     const wssUrl = 'https://myhook.io';
