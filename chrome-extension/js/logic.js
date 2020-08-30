@@ -105,8 +105,7 @@ const emitResponseToSocket = (requestId, response) => {
         status_text     : response.status_text
     };
 
-    let duration = new Date().getTime()-requestHistory[requestId].local_date.getTime();
-    responseBody.duration = duration;
+    responseBody.duration = new Date().getTime() - requestHistory[requestId].local_date.getTime();
     chrome.runtime.sendMessage({body: responseBody, type: 'response'});
 
     //append response to request
@@ -131,8 +130,7 @@ const handleBinaryRequest = (request) => {
         success: async (dt,status,response) => {
             if (dt instanceof Blob){
                 const arrayBuffer = await dt.arrayBuffer();
-                const responseText = new TextDecoder().decode(arrayBuffer);
-                response.responseText = responseText;
+                response.responseText = new TextDecoder().decode(arrayBuffer);
                 response.binaryData = arrayBuffer;
             }else{
                 response.responseText = '';

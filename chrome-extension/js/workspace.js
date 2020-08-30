@@ -58,7 +58,9 @@ let clearDetailView = () => {
 let addRequestHeadersInView = (request) => {
     clearDetailView();
     for(const key in request.headers){
-        $("#request_headers tbody").append(headersItemTemplate.split("{{key}}").join(key).split("{{value}}").join(request.headers[key]));
+        $("#request_headers tbody").append(headersItemTemplate
+            .split("{{key}}").join(key)
+            .split("{{value}}").join(request.headers[key]));
 
         if(key === 'content-length'){
             $("#content-length").html(request.headers[key]);
@@ -68,7 +70,8 @@ let addRequestHeadersInView = (request) => {
         }
     }
     for(const key in request.deleted_headers){
-        $("#request_headers tbody").append(headersItemTemplate.split("{{key}}").join(key).split("{{value}}").join(request.deleted_headers[key]));
+        $("#request_headers tbody").append(headersItemTemplate.split("{{key}}").join(key)
+            .split("{{value}}").join(request.deleted_headers[key]));
     }
 
     if (request.origin.substr(0, 7) == "::ffff:") {
@@ -86,7 +89,8 @@ let addRequestHeadersInView = (request) => {
 let addRequestResponseHeadersInView = (response) => {
     $("#request_response_headers").find("tr:gt(0)").remove();
     for(const key in response.headers){
-        $("#request_response_headers tbody").append(headersItemTemplate.split("{{key}}").join(key).split("{{value}}").join(response.headers[key]));
+        $("#request_response_headers tbody").append(headersItemTemplate.split("{{key}}").join(key)
+            .split("{{value}}").join(response.headers[key]));
     }
     /*for(const key in request.deleted_headers){
         $("#request_response_headers tbody").append(headersItemTemplate.split("{{key}}").join(key).split("{{value}}").join(request.deleted_headers[key]));
