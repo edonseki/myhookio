@@ -85,5 +85,5 @@ select any file in your extension's directory.
 2. In the file `index.js`, `app/js/main.js` and `app/js/logic.js` change the domain `https://myhook.io` to this:
 `'{your_protocol}://{yourdummydomain.com}';`
 3. Install dependencies: `npm i`
-4. Run electron app: `electron .`
+4. Run electron app: `npm run start`
 
