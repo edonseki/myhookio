@@ -52,7 +52,8 @@ const browser = {
                 width : options.width,
                 height : options.height,
                 webPreferences: {
-                    nodeIntegration: true
+                    nodeIntegration: true,
+                    enableRemoteModule: true
                 },
                 show: false,
                 icon: path.join(__dirname, 'assets/icons/png/64x64.png')
@@ -114,7 +115,8 @@ app.on('ready', ()=>{
         width : 490,
         height : 712,
         webPreferences: {
-            nodeIntegration: true
+            nodeIntegration: true,
+            enableRemoteModule: true
         },
         title: "MyHook",
         show: false,

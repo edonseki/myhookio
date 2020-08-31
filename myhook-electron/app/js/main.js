@@ -8,11 +8,11 @@ browser.app.sendMessage({ function: "getData" }, (response) => {
     }
 });
 $("#start_button").click(function(){
-    if($("#host").val().trim().length == 0){
+    if($("#host").val().trim().length === 0){
         alert("Please provide the host which will handle the requests from outside.");
         return;
     }
-    if($("#host_port").val().trim().length == 0){
+    if($("#host_port").val().trim().length === 0){
         alert("Please provide the port where local webserver is listening");
         return;
     }
