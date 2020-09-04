@@ -165,6 +165,11 @@ app.get('/url-check', (req, res) => {
         return;
     }
 
+    if(npmConfig.config.useTestSubdomain) {
+        res.send({alive: false});
+        return;
+    }
+
     const cfg = {
         timeout: 10,
         // WARNING: -i 2 may not work in other platform like window
