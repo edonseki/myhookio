@@ -4,6 +4,7 @@ const path = require('path');
 const config = require('./package');
 const https = require('https');
 const open = require('open');
+const fs = require('fs');
 
 const {app, BrowserWindow, Menu, dialog} = electron;
 
@@ -82,7 +83,7 @@ const browser = {
 };
 
 const checkForUpdate = () => {
-    const checkUrl = 'https://myhook.io/version-check?v='+config.version;
+    const checkUrl = config.customConfig.mainDomain + 'version-check?v='+config.version;
     https.get(checkUrl, (res) => {
         res.on('data', (d) => {
             try{
@@ -109,7 +110,48 @@ const checkForUpdate = () => {
 
 global.browser = browser;
 
+function getConnectionFromTemp() {
+    const filePath = path.join(app.getPath("temp"), 'myhook-connection-dt.json') ;
+    if(!fs.existsSync(filePath)){
+        return undefined;
+    }
+    const content = fs.readFileSync(filePath, 'utf8');
+    const connectionDetails = JSON.parse(content);
+
+    if(typeof connectionDetails !== 'undefined' &&
+    typeof connectionDetails.host !== 'undefined' &&
+    typeof connectionDetails.port !== 'undefined'){
+        fs.unlinkSync(filePath);
+        return  connectionDetails;
+    }
+
+    return undefined;
+}
+
 app.on('ready', ()=>{
+    global.screenWidth = electron.screen.getPrimaryDisplay().size.width;
+    global.screenHeight = electron.screen.getPrimaryDisplay().size.height;
+
+    const initConnection = getConnectionFromTemp();
+    if(typeof initConnection !== 'undefined'){
+        const appLogic = require('./app/js/logic');
+        appLogic.startConnection(initConnection.host, initConnection.port, (response) => {
+            require('./app/js/background');
+            const width = global.screenWidth/1.08;
+            const height = global.screenHeight/1.3;
+            const left = parseInt((global.screenWidth/2)-(width/2));
+            const top = parseInt((global.screenHeight/2)-(height/2));
+            browser.window.create({
+                url: 'workspace.html',
+                type: "popup",
+                width: parseInt(width),
+                height: parseInt(height),
+                left: left,
+                top: top
+            });
+        });
+        return;
+    }
     checkForUpdate();
     const mainWindow = new BrowserWindow({
         width : 490,
@@ -122,10 +164,6 @@ app.on('ready', ()=>{
         show: false,
         icon: path.join(__dirname, 'assets/icons/png/64x64.png')
     });
-
-
-    global.screenWidth = electron.screen.getPrimaryDisplay().size.width;
-    global.screenHeight = electron.screen.getPrimaryDisplay().size.height;
 
     require('./app/js/background.js');
 

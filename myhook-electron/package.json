@@ -12,6 +12,9 @@
     "dist": "electron-builder",
     "dist-unsigned": "CSC_IDENTITY_AUTO_DISCOVERY=false electron-builder -mwl"
   },
+  "customConfig" : {
+    "mainDomain" : "https://myhook.io/"
+  },
   "build": {
     "appId": "io.myhook.MyHook",
     "mac": {
