@@ -84,7 +84,7 @@ const terminateTheExtension = (sendResponse) => {
 };
 
 const emitResponseToSocket = (requestId, response) => {
-    const headers = response.headers;
+    const headers = response.headers || '';
     delete headers.connection;
 
     //TODO this should be as an extra setting for the workspace user. For now it will be always performed.
@@ -103,10 +103,8 @@ const emitResponseToSocket = (requestId, response) => {
         status_text     : 'response.status_text'
     };
 
-    let duration = new Date().getTime()-requestHistory[requestId].local_date.getTime();
-    responseBody.duration = duration;
+    responseBody.duration = new Date().getTime() - requestHistory[requestId].local_date.getTime();
     browser.runtime.sendMessage({body: responseBody, type: 'response'});
-
     socket.emit('onResponse', responseBody);
 
 
@@ -127,7 +125,7 @@ const handleBinaryRequest = (request) => {
         path: request.path,
         method: request.method,
         headers: request.headers
-    }
+    };
 
     const req = http.request(options, res => {
         let data = []; // List of Buffer objects
@@ -143,7 +141,13 @@ const handleBinaryRequest = (request) => {
     });
 
     req.on('error', (error, r,e) => {
-        console.log(error);
+        emitResponseToSocket(request.id, {
+            id              : request.id,
+            headers         : '',
+            responseText    : error.errno,
+            binaryData      : null,
+            statusCode      : 500,
+        });
     });
 
     req.write(request.body || '');
@@ -196,7 +200,13 @@ const handleRequest = (request) => {
     });
 
     req.on('error', (error, r,e) => {
-        console.log(error);
+        emitResponseToSocket(request.id, {
+            id              : request.id,
+            headers         : '',
+            responseText    : error.errno,
+            binaryData      : null,
+            statusCode      : 500,
+        });
     });
 
     req.write(request.body || '');
