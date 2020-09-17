@@ -87,3 +87,18 @@ select any file in your extension's directory.
 3. Install dependencies: `npm i`
 4. Run electron app: `npm run start`
 
+###### 6. Run the electron app from a different software
+
+In case you want to start an client instance of MyHook from another software then you can do this by using the electron
+client app of MyHook and following the steps below:
+
+1. Create a JSON file to your OS temp directory with the filename `myhook-connection-dt.json`. Example: Windows: `%temp%\myhook-connection-dt.json`
+2. The JSON should look like the structure below:
+```
+{
+ "host" : "localost" # the address of your local service,
+ "port" : 43434  # the port where your local service is running
+}
+```
+At the end start a new process of MyHook Desktop client. 
+
